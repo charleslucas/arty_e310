@@ -21,7 +21,7 @@ Platform:  Windows 10
 Editor:  Eclipse with the SVEditor plugin
 
 Install Ubuntu on a virtual machine.
-  Only a minimal install is necessary, but give yourself at least 120G HD and 3GB of RAM.
+  Only a minimal OS install is necessary, but give yourself at least 120G HD and 3GB of RAM.
   If you have only 2GB of RAM the "make <board> mcs" step will fail with this message:  /opt/Xilinx/Vivado/2018.2/bin/loader: line 194: 11809 Killed $RDI_PROG
 
 Install git, make, java, gcc, dtc, python:
@@ -60,7 +60,7 @@ Install the drivers to talk to the Arty board over USB/FTDI.
    To verify USB Device is connected (Virtual Machine):
     Run 'lsusb', should see a device "Future Technology Devices International, Ltd FT2232C Dual USB-UART/FIFO IC"
     Run 'ls -al /dev/ttyUSB1' (If you have multiple USB devices, may be ttyUSB3,5,7, etc.  Maybe have to detach USB device and see which one disappears.
-    Run Vivado -> Hardware Manager -> Open Target -> AutoConnect - should see Xilinx_tcf/Digilent/<ID Number>    
+    Run Vivado (<prompt>/vivado) -> Flow -> Open Hardware Manager -> Open Target -> AutoConnect - should see Xilinx_tcf/Digilent/<ID Number>    
     
 On Virtual Machine - Install SiFive RISC-V Toolchain w' OpenOCD
   https://www.sifive.com/boards
@@ -75,8 +75,33 @@ Clone and Build Freedom-E SDK
   make tools
 
 
+Updating the RTL:
+-----------------------------
 
-Creating the RTL:
+cd to directory .../freedom
+git pull
+
+
+Loading the pre-built example FPGA Image (blink):
+-----------------------------
+
+  Plug Arty board into USB cable.
+  Make sure the Virtual Machine has control of the device "Digilent USB Device" and USB device is connected (instructions above)
+  (If you unplug the Arty and plug it back in you may need to re-enable VM control of the USB device)
+  
+  Run Vivado (<prompt>/vivado) -> Flow -> Open Hardware Manager -> Open Target -> AutoConnect - should see Xilinx_tcf/Digilent/<ID Number>    
+  Right-click on xc7a35t_0, select ”Add Configuration Memory Device”
+  Seach for "mt25ql128" - will show image n25q128-3.3v
+  Press "Yes" when it asks if you want to program the Configuration Memory Device
+  Select freedom-e310-arty-1-0-2.mcs  (Instructions to download:   SiFive Freedom E310 Arty FPGA Dev Kit Getting Started Guide - Chapter 3)
+  Leave defaults - hit okay to begin programming
+  You should see the red and green LEDs on the USB side of the board light up.
+  (Don't switch away from VM focus during this or it may error out)
+  You should see a "programming successful" message.
+  After resetting the board (re-plugging the cable may be required) you should see the LED blink program running.   
+    
+
+Creating the RTL (from Chisel source) and building the FPGA Image File (Configuration Memory File) from source:
 -----------------------------
 
 Clone SiFive Freedom E310 github repository (Using Cygwin bash shell):
@@ -98,11 +123,8 @@ Clone SiFive Freedom E310 github repository (Using Cygwin bash shell):
   (output files under builds/e300artydevkit/obj)
 
 
-
-Loading the FPGA Image:
+Loading the custom-built FPGA Image (blink):
 -----------------------------
+Follow the instructions above for the example FPGA image, except select .../freedom/builds/e300artydevkit/obj/E300ArtyDevKitFPGAChip.mcs instead.
+After resetting the board (re-plugging the cable may be required) you should see the LED blink program running.
 
-  Run Vivado -> Hardware Manager -> Open Target -> AutoConnect - should see Xilinx_tcf/Digilent/<ID Number>    
-  Right-click on xc7a35t_0, select ”Add Configuration Memory Device”
-  Seach for "n25q128-3.3v" - it will show up as an alias of mt25ql28)
-    
