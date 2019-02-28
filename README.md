@@ -128,3 +128,34 @@ Loading the custom-built FPGA Image (blink):
 Follow the instructions above for the example FPGA image, except select .../freedom/builds/e300artydevkit/obj/E300ArtyDevKitFPGAChip.mcs instead.
 After resetting the board (re-plugging the cable may be required) you should see the LED blink program running.
 
+
+
+Connecting to the Arty (through the USB port) via terminal program:
+-----------------------------
+On the VM:
+  
+  sudo apt install screen (first time setup)
+  
+  sudo screen /dev/ttyUSB2 115200
+  (115200 for the precompiled image - 57600 for the compiled freedom image - https://forums.sifive.com/t/printing-over-uart-broken/1322) 
+  
+  Press Reset on the Arty
+  You should see text like that shown in the Getting Started Guide
+
+Issue - currently the output text is flaky (using both images), and varies from reset to reset.  Have seen similar complaints in forum.  Could be a an actual protocol issue, or perhaps an issue in translation between host and VM control.
+
+
+Running the software debugger with Blink (via the Olimex):
+-----------------------------
+  In case you have to install the FTDI drivers, but in Ubuntu they should be included in the kernel by default:  https://www.ftdichip.com/Support/Documents/AppNotes/AN_220_FTDI_Drivers_Installation_Guide_for_Linux.pdf
+  
+  Make sure the Virtual Machine has control of the device "Olimex Ltd. OpenOCD JTAG ARM-USB-TINY-H"  (Not "Olimex Ltd. ARM-USB-TINY-H JTAG interface").  If it's not there, then ensure the VM is started *before* the Olimex is connected to the host and try again.
+  
+  Connect the Olimex to the Arty board according to the diagram and picture on pages 4/5 of the Getting Started Guide
+  Connect the Olimex to a USB cable, and connect to the host machine.
+  Once you plug the Olimex into the host *and* into the Arty, program execution will halt.
+  
+  <wip>
+    
+  
+  
