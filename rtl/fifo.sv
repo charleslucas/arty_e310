@@ -44,8 +44,8 @@ module fifo #(
     else begin
       push_ptr <= push_ptr_next;
       pop_ptr  <= pop_ptr_next;
-      fifo_data[push_ptr] <= fifo_data_next;
     end
+    fifo_data[push_ptr] <= fifo_data_next;
   end
 
-endmodule;
+endmodule
