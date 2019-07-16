@@ -1,0 +1,20 @@
+# arty_e310
+
+-----------------------------
+Prerequisites:
+-----------------------------
+Program the Arty e310 with either the pre-build FPGA image or the custom-built image - see FPGA_Programming.txt
+
+
+-----------------------------
+Running the software debugger with Blink (via the Olimex):
+-----------------------------
+  In case you have to install the FTDI drivers, but in Ubuntu they should be included in the kernel by default:  https://www.ftdichip.com/Support/Documents/AppNotes/AN_220_FTDI_Drivers_Installation_Guide_for_Linux.pdf
+  
+  Make sure the Virtual Machine has control of the device "Olimex Ltd. OpenOCD JTAG ARM-USB-TINY-H"  (Not "Olimex Ltd. ARM-USB-TINY-H JTAG interface").  If it's not there, then ensure the VM is started *before* the Olimex is connected to the host and try again.
+  
+  Connect the Olimex to the Arty board according to the diagram and picture on pages 4/5 of the Getting Started Guide
+  Connect the Olimex to a USB cable, and connect to the host machine.
+  Once you plug the Olimex into the host *and* into the Arty, program execution will halt.
+  
+  <wip>
