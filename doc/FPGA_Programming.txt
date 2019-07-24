@@ -33,7 +33,7 @@ Loading the pre-built example FPGA Image (blink):
     
 
 -----------------------------
-Creating the RTL (from Chisel source) and building the FPGA Image File (Configuration Memory File) from source:
+Creating the RTL (from Chisel source) and building the FPGA Image File (Configuration Memory File) from source using Windows Linux Subsystem w' Ubuntu:
 -----------------------------
 
 Clone SiFive Freedom E310 github repository (Using Cygwin bash shell):
@@ -46,10 +46,34 @@ Clone SiFive Freedom E310 github repository (Using Cygwin bash shell):
  Build the RTL and MCS (make sure you do these in order):
   The Makefile corresponding to the Freedom E300 Arty FPGA Dev Kit is Makefile.e300artydevkit and it consists of two main targets:
 
-  #verilog: to compile the Chisel source files and generate the Verilog files.  (You must have the RISC-V toolchain installed to do this)
+  #verilog: to compile the Chisel source files into Verilog source files.  (You must have the RISC-V toolchain installed to do this - see RISCV_Setup.txt)
   make -f Makefile.e300artydevkit verilog
   
-  #mcs: to create a Configuration Memory File (.mcs) that can be programmed onto an Arty FPGA board.  (You must have the RISC-V toolchain installed to do this)
+  #mcs: to create a Configuration Memory File (.mcs) that can be programmed onto an Arty FPGA board.  (You must have Vivado *and* the RISC-V toolchain installed to do this - see Vivado_Setup.txt and RISCV_Setup.txt)
+  make -f Makefile.e300artydevkit mcs
+  
+  (output files under builds/e300artydevkit/obj)
+
+
+-----------------------------
+Creating the RTL (from Chisel source) and building the FPGA Image File (Configuration Memory File) from source using Cygwin:
+-----------------------------
+
+Clone SiFive Freedom E310 github repository (Using Cygwin bash shell):
+  cd ~/cygwin
+  git clone http://github.com/sifive/freedom
+  cd freedom
+  #Run this command to update subrepositories used by freedom
+  git submodule update --init --recursive
+  
+ Build the RTL and MCS (make sure you do these in order):
+  The Makefile corresponding to the Freedom E300 Arty FPGA Dev Kit is Makefile.e300artydevkit and it consists of two main targets:
+
+  #verilog: to compile the Chisel source files into Verilog source files.  (You must have the RISC-V toolchain installed to do this - see RISCV_Setup.txt)
+  make -f Makefile.e300artydevkit verilog
+  
+  #mcs: to create a Configuration Memory File (.mcs) that can be programmed onto an Arty FPGA board.  (You must have Vivado *and* the RISC-V toolchain installed to do this - see Vivado_Setup.txt and RISCV_Setup.txt)
+
   make -f Makefile.e300artydevkit mcs
   
   (output files under builds/e300artydevkit/obj)

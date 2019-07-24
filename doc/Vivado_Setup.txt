@@ -28,7 +28,52 @@ Download and install latest version of Vivado HL Design Edition (12.5G Download!
 Download "Vivado HLx 2019.1: WebPACK and Editions - Windows Self Extracting Web Installer"
 
 
+-----------------------------
+Software Setup (Using Windows Linux Subystem w' Ubuntu):
+-----------------------------
 
+Platform:  Windows 10 w' Linux Subsystem w' Ubuntu
+
+Download and install latest version of Vivado HL Design Edition (12.5G Download!):
+  https://www.xilinx.com/support/download.html
+  http://xilinx.com/getlicense
+  
+Download "Vivado HLx 2019.1: All OS installer Single-File Download" (21.4GB Download)
+Run cmd
+run 'ubuntu' and login
+mv /mnt/c/Users/Charley\ Lucas/Downloads/Xilinx_Vivado_SDK_2019.1_0524_1430.tar.gz .
+
+Get X running for Ubuntu Linux Subsystem:  https://eecs.blog/wsl-gui-installation-for-kali-linux/
+(It works for Ubuntu as well as Kali, make sure to change the port to 3390)
+
+Login using Remote Desktop Connection - Start a new xterm:
+  mv Xilinx_Vivado_SDK_Web_2019.1_0524_1430_Lin64.bin .
+  sudo ./Xilinx_Vivado_SDK_Web_2019.1_0524_1430_Lin64.bin
+  Login and select "Download and Install Now"
+  If you have a license for the Arty board, select "Vivado HL Design Edition", otherwise Webpack
+  When done, copy the license in using the license manager.
+
+emacs ~/.bashrc
+add the following line:
+  export PATH=/tools/Xilinx/Vivado/2019.1/bin:$PATH
+
+Make sure to install the proper Vivado board files:  https://reference.digilentinc.com/reference/software/vivado/board-files
+  Run 'vivado &'
+  In the GUI, select Tools->Download Latest Boards
+  Wait a while until it finishes.
+  Exit vivado
+
+  Download the archive of the vivado-boards Github repository:  https://github.com/Digilent/vivado-boards/archive/master.zip
+  Copy vivado-boards-master.zip to the linux subsystem user home directory and unzip it:
+    sudo apt install unzip
+    unzip vivado-boards-master.zip
+  cd /tools/Xilinx/Vivado/2019.1/data/boards
+  Make a backup of the original board_files directory:
+    sudo tar cvfz board_files.orig.tgz board_files
+  Copy the contents of the vivado-boards archive to the board-files directory:
+    sudo cp -r ~/vivado-boards-master/new/board_files/ /tools/Xilinx/Vivado/2019.1/data/boards/board_files/
+
+  
 -----------------------------
 Software Setup (Using Ubuntu Virtual Machine and Linux Toolflow):
 -----------------------------
@@ -106,11 +151,53 @@ Loading the pre-built example FPGA Image (blink):
   After resetting the board (re-plugging the cable may be required) you should see the LED blink program running.   
     
 
-Creating the RTL (from Chisel source) and building the FPGA Image File (Configuration Memory File) from source:
 -----------------------------
+Creating the RTL (from Chisel source) and building the FPGA Image File (Configuration Memory File) from source under Windows:
+-----------------------------
+
+** This process is not functional - compile errors**
 
 Clone SiFive Freedom E310 github repository (Using Cygwin bash shell):
   cd ~/cygwin
+  git clone http://github.com/sifive/freedom
+  cd freedom
+  #Run this command to update subrepositories used by freedom
+  git submodule update --init --recursive
+  
+ Build the RTL and MCS (make sure you do these in order):
+  The Makefile corresponding to the Freedom E300 Arty FPGA Dev Kit is Makefile.e300artydevkit and it consists of two main targets:
+
+  #verilog: to compile the Chisel source files and generate the Verilog files.  (You must have the RISC-V toolchain installed to do this)
+  make -f Makefile.e300artydevkit verilog
+  
+  Note - they recommend not adding the build tools to the system path, so when you go to compile freedom (see Vivado_Setup.txt), you will need to use the whole bin path like:
+  C:\Users\"Charley Lucas"\AppData\Roaming\xPacks\@gnu-mcu-eclipse\windows-build-tools\2.12.1-1\.content\bin\make -f Makefile.e300artydevkit verilog
+or in git bash:
+  /c/Users/Charley\ Lucas/AppData/Roaming/xPacks/\@gnu-mcu-eclipse/windows-build-tools/2.12.1-1/.content/bin/make -f Makefile.e300artydevkit verilog
+
+My build failed with an frrtl error, I found a description of it here with some suggestions:  https://github.com/freechipsproject/firrtl/issues/910
+
+To manually compile firrtl using sbt:
+  Download and install the latest sbt (Scala Build Tool) utility for Windows:  https://www.scala-sbt.org/download.html
+  The sbt build needs javac, so I install the Java JDK (I picked version 8) - https://www.oracle.com/technetwork/java/javase/downloads/index.html
+  cd freedom/rocket-chip/firrtl
+  sbt assembly
+
+  
+  #mcs: to create a Configuration Memory File (.mcs) that can be programmed onto an Arty FPGA board.  (You must have the RISC-V toolchain installed to do this)
+  make -f Makefile.e300artydevkit mcs
+  
+  (output files under builds/e300artydevkit/obj)
+
+
+-----------------------------
+Creating the RTL (from Chisel source) and building the FPGA Image File (Configuration Memory File) from source under Windows Linux Subsystem w' Ubuntu:
+-----------------------------
+
+Start cmd window
+Run 'ubuntu' and login
+
+Clone SiFive Freedom E310 github repository:
   git clone http://github.com/sifive/freedom
   cd freedom
   #Run this command to update subrepositories used by freedom

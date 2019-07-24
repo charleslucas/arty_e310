@@ -9,6 +9,10 @@ Documentation:
   
   SiFive Freedom E300 Platform Reference Manual
   https://static.dev.sifive.com/SiFive-E300-platform-reference-manual-v1.0.1.pdf
+  
+  MCU:
+    https://gnu-mcu-eclipse.github.io/
+    This contains an eclipse-based SDE/CDT, in addition to pre-compiled gcc, windows make and rm utilities, OpenOCD and QEMU
 
 
 -----------------------------
@@ -21,7 +25,65 @@ Install the RISCV ToolChain (for Windows):
     https://nodejs.org/en/  (Currently 10.16.0 LTS)
   Install the xpack utility:
     https://gnu-mcu-eclipse.github.io/windows-build-tools/install/
+  Install Git for Windows:
+    https://git-scm.com/download/win  (for some reason I could only download with MS Edge, not Chrome)
+    Make sure you can run git through a new Windows command-line window.
 
+Go to "GitHub Releases":  https://github.com/gnu-mcu-eclipse/riscv-none-gcc/releases
+Download the latest windows binary:  gnu-mcu-eclipse-riscv-none-gcc-<latest>-win64.zip
+Open zip file, copy "GNU MCU Eclipse" folder into %userprofile%\AppData\Roaming\
+Restart Eclipse
+
+Install the build tools - make and BusyBox (sh/rm/echo):
+  https://gnu-mcu-eclipse.github.io/windows-build-tools/
+  https://gnu-mcu-eclipse.github.io/windows-build-tools/install/
+  Note:  Using these tools necessitates unix-style paths and makefiles
+  Go to "ARM MCU Eclipse Windows Build Tools":  https://github.com/gnu-mcu-eclipse/windows-build-tools/releases
+  Download the latest windows binary:  gnu-mcu-eclipse-windows-build-tools-<version>-win64.zip
+  (In my case Github gave me a 404 error, so I had to use the xpack option - open up a cmd window, make sure xpm works, and run 'xpm install --global @gnu-mcu-eclipse/windows-build-tools')
+
+
+Note - they recommend not adding the build tools to the system path, so when you go to compile freedom (see Vivado_Setup.txt), you will need to use the whole bin path like:
+  C:\Users\"Charley Lucas"\AppData\Roaming\xPacks\@gnu-mcu-eclipse\windows-build-tools\2.12.1-1\.content\bin\make -f Makefile.e300artydevkit verilog
+or in git bash:
+  /c/Users/Charley\ Lucas/AppData/Roaming/xPacks/\@gnu-mcu-eclipse/windows-build-tools/2.12.1-1/.content/bin/make -f Makefile.e300artydevkit verilog
+
+My build failed with an frrtl error, I found a description of it here with some suggestions:  https://github.com/freechipsproject/firrtl/issues/910
+
+I made a fresh clone of just frrtl and compiled it to duplicate the issue.
+To do a manual compile I downloaded the latest sbt (Scala Build Tool) utility for Windows:  https://www.scala-sbt.org/download.html
+The sbt build needs javac, so I installed a Java JDK (I picked version 8) - https://www.oracle.com/technetwork/java/javase/downloads/index.html
+
+Compiling firrtl with linux subsystem:
+  install Ubuntu linux subsystem and set up with account
+  sudo apt install make
+  Download and unzip the latest version of sbt:  https://www.scala-sbt.org/download.html
+  Install Oracle java jdk 8 - https://www.codingepiphany.com/2017/06/12/installing-java-windows-linux-subsystem/
+  cd freedom/rocket-chip/firrtl
+  ~/sbt/bin/sbt assembly
+This should result in a successful message.  Now copy the firrtl compiled with linux subsystem over in place of the one compiled under Windows:
+Rename the Windows firrtl to firrtl.orig
+Copy 
+C:\Users\Charley Lucas\AppData\Local\Packages\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\LocalState\rootfs\home\cdlucas\freedom\rocket-chip\firrtl in it's place.
+(Ignore the file-too-long errors)
+
+To compile the chisel source code into Verilog source code:
+  cd ~/freedom
+  make -f Makefile.e300artydevkit verilog
+  Build will fail the first time
+  cd freedom/rocket-chip/firrtl
+  ~/sbt/bin/sbt publishLocal
+  /c/Users/Charley\ Lucas/AppData/Roaming/xPacks/\@gnu-mcu-eclipse/windows-build-tools/2.12.1-1/.content/bin/make -f Makefile.e300artydevkit verilog
+
+To synthesize the verilog source code into an FPGA image: 
+  sudo apt install nodejs
+  sudo apt install npm
+  xpm install --global @gnu-mcu-eclipse/riscv-none-gcc
+  export RISCV=~/opt/xPacks/@gnu-mcu-eclipse/riscv-none-gcc/8.2.0-2.2.1/.content
+  sudo apt install device-tree-compiler
+  -Make sure Vivado is installed and on the path-
+  make -f Makefile.e300artydevkit mcs
+ 
 
 -----------------------------
 Software Setup (Using Windows 10 Linux Subsystem):
@@ -37,8 +99,29 @@ Turn on the Linux Subsystem in Powershell:
       Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
     Press Y, then Enter to restart your computer when prompted. Your PC will restart instantly, so be sure to save any work beforehand.
     
-Install your Linux distro from the Microsoft Store:
+Install your Linux distro from the Microsoft Store - I chose Ubuntu
 
+###Download the precompiled GNU Embedded Toolchain and OpenOCD for Ubuntu:  https://www.sifive.com/boards (near the bottom)
+  tar xvfz riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14.tar.gz
+  Add the following line to ~/.bashrc:
+    export RISCV=~/riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14/
+
+To compile the chisel source code into Verilog source code:
+  cd ~/freedom
+  make -f Makefile.e300artydevkit verilog
+
+To synthesize the verilog source code into an FPGA image: 
+  sudo apt install nodejs
+  sudo apt install npm
+  sudo npm install --global xpm
+  sudo apt install device-tree-compiler
+  xpm install --global @gnu-mcu-eclipse/riscv-none-gcc
+  Make sure Vivado is installed and on the path:
+    Add the following lines to ~/.bashrc:
+      export RISCV=~/opt/xPacks/@gnu-mcu-eclipse/riscv-none-gcc/8.2.0-2.2.1/.content
+      
+  make -f Makefile.e300artydevkit mcs
+ 
 
 -----------------------------
 Software Setup (Using Ubuntu Virtual Machine and Linux Toolflow):
