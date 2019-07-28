@@ -1,4 +1,6 @@
 # arty_e310
+# Charles Lucas
+# charles@lucas.net
 
 -----------------------------
 External Documentation:
@@ -17,7 +19,9 @@ External Documentation:
 -----------------------------
 Project Documentation
 -----------------------------
-doc/Vivado_Setup.txt     - Set up the Vivado RTL compilation/debug and FPGA programming environment.
-doc/RISCV_Setup.txt      - Set up the toolflow for compiling software for the RISCV processor.
-doc/FPGA_Programming.txt - Program the Arty FPGA with either the pre-built example binary or build a custom binary.
-doc/Olimex_Debug.txt     - Use the Olimex debugger to analyze software running on the RISC-V processor.
+doc/Vivado_Setup.txt        - Set up the Vivado RTL compilation/debug and FPGA programming environment.
+doc/RISCV_Setup.txt         - Set up the toolflow for compiling software for the RISCV processor.
+doc/FPGA_Programming.txt    - Program the Arty FPGA with either the pre-built example binary or build a custom binary.
+doc/Olimex_Debug.txt        - Use the Olimex debugger to analyze software running on the RISC-V processor.
+doc/RISCV_Programming.txt   - Documentation about software development for the RISC-V processor.
+doc/Technical_Reference.txt - References and whitepapers regarding RTL and validation technical issues.
