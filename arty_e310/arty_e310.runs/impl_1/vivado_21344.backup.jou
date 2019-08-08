@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Thu Aug  8 10:16:42 2019
+# Process ID: 21344
+# Current directory: C:/cygwin64/home/cdlucas/devel/github/arty_e310/arty_e310/arty_e310.runs/impl_1
+# Command line: vivado.exe -log xc7a35t_top.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source xc7a35t_top.tcl -notrace
+# Log file: C:/cygwin64/home/cdlucas/devel/github/arty_e310/arty_e310/arty_e310.runs/impl_1/xc7a35t_top.vdi
+# Journal file: C:/cygwin64/home/cdlucas/devel/github/arty_e310/arty_e310/arty_e310.runs/impl_1\vivado.jou
+#-----------------------------------------------------------
+source xc7a35t_top.tcl -notrace

@@ -1,0 +1,6 @@
+set_property PACKAGE_PIN N15 [get_ports CLK100MHZ]
+set_property PACKAGE_PIN T13 [get_ports RESET]
+set_property PACKAGE_PIN U13 [get_ports {BUTTON[3]}]
+set_property PACKAGE_PIN T9 [get_ports {BUTTON[2]}]
+set_property PACKAGE_PIN T10 [get_ports {BUTTON[1]}]
+set_property PACKAGE_PIN R10 [get_ports {BUTTON[0]}]

@@ -14,6 +14,13 @@ Documentation:
   https://static.dev.sifive.com/SiFive-E300-platform-reference-manual-v1.0.1.pdf
 
   Arty A7 comes in two FPGA variants: Arty A7-35T features Xilinx XC7A35TICSG324-1L. Arty A7-100T features the larger Xilinx XC7A100TCSG324-1
+  
+  Vivado Setup:
+  https://reference.digilentinc.com/vivado/getting_started/start
+  
+  Vivado I/O Planning Tutorial:
+  https://www.xilinx.com/video/hardware/i-and-o-planning-overview.html
+  
 
 -----------------------------
 Software Setup (Only Using Windows Toolflow):

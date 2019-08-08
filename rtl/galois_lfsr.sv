@@ -6,7 +6,7 @@
 // =================================
 
 module galois_lfsr #(
-          parameter LFSR_WIDTH                 = 8
+          parameter LFSR_WIDTH                 = 8  // 8 is the only option for now
         , parameter LFSR_SEED                  = 1  // Only bit 0 is high by default
         , parameter LFSR_OUTPUT_BITS_PER_CLOCK = 1
         //        , parameter LFSR_POLYNOMIAL            // Currently have a fixed polynomial
@@ -25,7 +25,7 @@ module galois_lfsr #(
     logic [LFSR_OUTPUT_BITS_PER_CLOCK-1:0] lfsr_out_next;
   
     generate
-        if (LFSR_OUTPUT_BITS_PER_CLOCK == 1) begin : g_lfsr_bits_per_clock_select
+        if (LFSR_OUTPUT_BITS_PER_CLOCK == 1) begin : g_lfsr_bits_per_clock_select_1
             always_comb begin
                 if (enable) begin : g_lfsr_enable
                     // Polynomial x^8 + x^4 + x^3 + x^2 + 1
@@ -38,12 +38,12 @@ module galois_lfsr #(
                     lfsr_next[6] =           lfsr[5];
                     lfsr_next[7] =           lfsr[6];
                  end
-                 else begin : g_lfsr_unspecified_bits_per_clock
+                 else begin : g_lfsr_unspecified_bits_per_clock_1
                      lfsr_next = lfsr;
                  end
             end
         end
-        else if (LFSR_OUTPUT_BITS_PER_CLOCK == 2) begin : g_lfsr_bits_per_clock_select
+        else if (LFSR_OUTPUT_BITS_PER_CLOCK == 2) begin : g_lfsr_bits_per_clock_select_2
             always_comb begin
                 if (enable) begin : g_lfsr_enable
                     // Polynomial x^8 + x^4 + x^3 + x^2 + 1
@@ -56,12 +56,12 @@ module galois_lfsr #(
                     lfsr_next[6] =                     lfsr[4];
                     lfsr_next[7] =                     lfsr[5];
                 end
-                else begin : g_lfsr_unspecified_bits_per_clock
+                else begin : g_lfsr_unspecified_bits_per_clock_2
                     lfsr_next = lfsr;
                 end
             end
         end
-        else if (LFSR_OUTPUT_BITS_PER_CLOCK == 3) begin : g_lfsr_bits_per_clock_select
+        else if (LFSR_OUTPUT_BITS_PER_CLOCK == 3) begin : g_lfsr_bits_per_clock_select_3
             always_comb begin
                 if (enable) begin : g_lfsr_enable
                     // Polynomial x^8 + x^4 + x^3 + x^2 + 1
@@ -74,12 +74,12 @@ module galois_lfsr #(
                     lfsr_next[6] = lfsr[7]                     ^ lfsr[3];
                     lfsr_next[7] =                               lfsr[4];
                 end
-                else begin : g_lfsr_unspecified_bits_per_clock
+                else begin : g_lfsr_unspecified_bits_per_clock_3
                     lfsr_next = lfsr;
                 end
             end
         end
-        else if (LFSR_OUTPUT_BITS_PER_CLOCK == 4) begin : g_lfsr_bits_per_clock_select
+        else if (LFSR_OUTPUT_BITS_PER_CLOCK == 4) begin : g_lfsr_bits_per_clock_select_4
             always_comb begin
                 if (enable) begin : g_lfsr_enable
                     // Polynomial x^8 + x^4 + x^3 + x^2 + 1
@@ -92,12 +92,12 @@ module galois_lfsr #(
                     lfsr_next[6] = lfsr[7] ^ lfsr[6]                     ^ lfsr[2];
                     lfsr_next[7] = lfsr[7]                               ^ lfsr[3];
                 end
-                else begin : g_lfsr_unspecified_bits_per_clock
+                else begin : g_lfsr_unspecified_bits_per_clock_4
                     lfsr_next = lfsr;
                 end
             end
         end
-        else if (LFSR_OUTPUT_BITS_PER_CLOCK == 5) begin : g_lfsr_bits_per_clock_select
+        else if (LFSR_OUTPUT_BITS_PER_CLOCK == 5) begin : g_lfsr_bits_per_clock_select_5
             always_comb begin
                 if (enable) begin : g_lfsr_enable
                     // Polynomial x^8 + x^4 + x^3 + x^2 + 1
@@ -110,30 +110,30 @@ module galois_lfsr #(
                     lfsr_next[6] = lfsr[7] ^ lfsr[6] ^ lfsr[5]                     ^ lfsr[1];
                     lfsr_next[7] = lfsr[7] ^ lfsr[6]                               ^ lfsr[2];
                 end
-                else begin : g_lfsr_unspecified_bits_per_clock
+                else begin : g_lfsr_unspecified_bits_per_clock_5
                     lfsr_next = lfsr;
                 end
             end
         end
-        else if (LFSR_OUTPUT_BITS_PER_CLOCK == 6) begin : g_lfsr_bits_per_clock_select
+        else if (LFSR_OUTPUT_BITS_PER_CLOCK == 6) begin : g_lfsr_bits_per_clock_select_6
             always_comb begin
                 if (enable) begin : g_lfsr_enable
                     // Polynomial x^8 + x^4 + x^3 + x^2 + 1
                     lfsr_next[0] = lfsr[7] ^ lfsr[6]                                         ^ lfsr[2];
                     lfsr_next[1] = lfsr[7]                                                   ^ lfsr[3];
-                    lfsr_next[2] =                                                             lfsr[4];
-                    lfsr_next[3] =                                         lfsr[3]           ^ lfsr[5];
-                    lfsr_next[4] =                               lfsr[4] ^ lfsr[3]           ^ lfsr[6];
+                    lfsr_next[2] =                                                   lfsr[2] ^ lfsr[4];
+                    lfsr_next[3] =                                         lfsr[3] ^ lfsr[2] ^ lfsr[5];
+                    lfsr_next[4] =                               lfsr[4] ^ lfsr[3] ^ lfsr[2] ^ lfsr[6];
                     lfsr_next[5] =                     lfsr[5] ^ lfsr[4] ^ lfsr[3]           ^ lfsr[7];
                     lfsr_next[6] =           lfsr[6] ^ lfsr[5] ^ lfsr[4]                     ^ lfsr[0];
                     lfsr_next[7] = lfsr[7] ^ lfsr[6] ^ lfsr[5]                               ^ lfsr[1];
                 end
-                else begin : g_lfsr_unspecified_bits_per_clock
+                else begin : g_lfsr_unspecified_bits_per_clock_6
                     lfsr_next = lfsr;
                 end
             end
         end
-        else if (LFSR_OUTPUT_BITS_PER_CLOCK == 7) begin : g_lfsr_bits_per_clock_select
+        else if (LFSR_OUTPUT_BITS_PER_CLOCK == 7) begin : g_lfsr_bits_per_clock_select_7
             always_comb begin
                 if (enable) begin : g_lfsr_enable
                     // Polynomial x^8 + x^4 + x^3 + x^2 + 1
@@ -146,12 +146,12 @@ module galois_lfsr #(
                     lfsr_next[6] =                     lfsr[5] ^ lfsr[4] ^ lfsr[3]                     ^ lfsr[7];
                     lfsr_next[7] =           lfsr[6] ^ lfsr[5] ^ lfsr[4]                               ^ lfsr[0];
                 end
-                else begin : g_lfsr_unspecified_bits_per_clock
+                else begin : g_lfsr_unspecified_bits_per_clock_7
                     lfsr_next = lfsr;
                 end
             end
         end
-        else if (LFSR_OUTPUT_BITS_PER_CLOCK == 8) begin : g_lfsr_bits_per_clock_select
+        else if (LFSR_OUTPUT_BITS_PER_CLOCK == 8) begin : g_lfsr_bits_per_clock_select_8
             always_comb begin
                 if (enable) begin : g_lfsr_enable
                     // Polynomial x^8 + x^4 + x^3 + x^2 + 1
@@ -164,12 +164,12 @@ module galois_lfsr #(
                     lfsr_next[6] =                               lfsr[4] ^ lfsr[3] ^ lfsr[2]                     ^ lfsr[6];
                     lfsr_next[7] =                     lfsr[5] ^ lfsr[4] ^ lfsr[3]                               ^ lfsr[7];
                 end
-                else begin : g_lfsr_unspecified_bits_per_clock
+                else begin : g_lfsr_unspecified_bits_per_clock_8
                     lfsr_next = lfsr;
                 end
             end
         end
-        else begin
+        else begin : g_lfsr_bits_per_clock_select_invalid
             // TODO - Add assertion - we should never hit this case
             always_comb lfsr_next = lfsr;
         end

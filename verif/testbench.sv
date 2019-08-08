@@ -87,16 +87,17 @@ module ti #() ();
   
     //---------------------------------------
     // Interface Instance
+    //   Top-Level parameter settings
     //---------------------------------------
     design_if #(
-            .LFSR_WIDTH                 (8)
+              .LFSR_WIDTH                 (8)
             , .LFSR_SEED                  (1)           // Only bit 0 is high by default
             , .LFSR_OUTPUT_BITS_PER_CLOCK (2)
 
             , .FIFO_WIDTH                 (8)
             , .FIFO_DEPTH                 (32)          // Must be a power of two
         ) intf (
-            .clk                        (clk)
+              .clk                        (clk)
             , .reset_n                    (reset_n)
         );
 
@@ -144,7 +145,7 @@ module ti #() ();
     //DUT instance
     //---------------------------------------
     top #(
-            .LFSR_WIDTH                 (intf.LFSR_WIDTH)
+              .LFSR_WIDTH                 (intf.LFSR_WIDTH)
             , .LFSR_SEED                  (intf.LFSR_SEED)  // Only bit 0 is high by default
             , .LFSR_OUTPUT_BITS_PER_CLOCK (intf.LFSR_OUTPUT_BITS_PER_CLOCK)
 
@@ -152,7 +153,7 @@ module ti #() ();
             , .FIFO_DEPTH                 (intf.FIFO_DEPTH)  // Must be a power of two
         ) DUT (
             // Connect the interface to the DUT RTL Signals
-            .clk                        (intf.clk)
+              .clk                        (intf.clk)
             , .reset_n                    (intf.reset_n)
 
             , .lfsr0_enable               (intf.enable)
