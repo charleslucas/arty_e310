@@ -44,8 +44,8 @@ class env extends uvm_env;
             int loop_count = 0;
 
             // Time 0 values
-            m_if.cb.enable <= 1'b0;
-            m_if.cb.pop    <= 1'b0;  // Not popping for now
+            m_if.cb.btn <= 2'b00;
+            m_if.cb.sw  <= 4'h0;
 
             // Wait a clock for reset_n to be driven
             @(m_if.cb);
@@ -56,18 +56,35 @@ class env extends uvm_env;
             end
             `uvm_info("LABEL", "Reset deasserted.", UVM_HIGH);
       
-            // Wait a few clocks and then enable lfsr pattern generation
+            // Wait a few clocks and then pulse enable for lfsr pattern generation
             repeat(10) @(m_if.cb);
-            m_if.cb.enable <= 1'b1;
+            m_if.cb.btn[0] <= 1'b1;
+
+            repeat(1) @(m_if.cb);
+            m_if.cb.btn[0] <= 1'b0;
+
+            // Wait a few clocks and then pulse enable for lfsr pattern generation
+            repeat(4) @(m_if.cb);
+            m_if.cb.btn[0] <= 1'b1;
+
+            repeat(1) @(m_if.cb);
+            m_if.cb.btn[0] <= 1'b0;
+
+            // Wait a few clocks and then pulse pop to read data out from FIFO
+            repeat(4) @(m_if.cb);
+            m_if.cb.btn[1] <= 1'b1;
+
+            repeat(1) @(m_if.cb);
+            m_if.cb.btn[1] <= 1'b0;
 
             // Wait for the fifo to fill up or our timeout limit to be reached
-            while (m_if.cb.full !== 1'b1 && loop_count < 100) begin
+            while (m_if.cb.led2_r !== 1'b1 && loop_count < 100) begin
                 @(m_if.cb);
                 loop_count = loop_count + 1;
             end
         
             `uvm_info("FINISHED", $sformatf("full = %0b, loop_count = %0d",
-                    m_if.cb.full, loop_count), UVM_LOW);
+                    m_if.cb.led2_r, loop_count), UVM_LOW);
         end
         `uvm_info("LABEL", "Finished run phase.", UVM_HIGH);
         phase.drop_objection(this);
@@ -90,20 +107,20 @@ module ti #() ();
     //   Top-Level parameter settings
     //---------------------------------------
     design_if #(
-              .LFSR_WIDTH                 (8)
+            .LFSR_WIDTH                 (8)
             , .LFSR_SEED                  (1)           // Only bit 0 is high by default
-            , .LFSR_OUTPUT_BITS_PER_CLOCK (2)
+            , .LFSR_OUTPUT_BITS_PER_CLOCK (4)
 
-            , .FIFO_WIDTH                 (8)
+            , .FIFO_WIDTH                 (4)
             , .FIFO_DEPTH                 (32)          // Must be a power of two
         ) intf (
-              .clk                        (clk)
+            .clk                        (clk)
             , .reset_n                    (reset_n)
         );
 
-    // Reset and Clock Drivers
+    // Test Signal Drivers
     initial begin
-        clk = 1'b0;
+        clk <= 1'b0;
         reset_n <= 1'b0;    // Assert reset_n from time 0
       
         #1000;
@@ -144,26 +161,23 @@ module ti #() ();
     //---------------------------------------
     //DUT instance
     //---------------------------------------
-    top #(
-              .LFSR_WIDTH                 (intf.LFSR_WIDTH)
-            , .LFSR_SEED                  (intf.LFSR_SEED)  // Only bit 0 is high by default
-            , .LFSR_OUTPUT_BITS_PER_CLOCK (intf.LFSR_OUTPUT_BITS_PER_CLOCK)
-
-            , .FIFO_WIDTH                 (intf.FIFO_WIDTH)
-            , .FIFO_DEPTH                 (intf.FIFO_DEPTH)  // Must be a power of two
-        ) DUT (
+    xc7a35t_top #() DUT (
             // Connect the interface to the DUT RTL Signals
-              .clk                        (intf.clk)
-            , .reset_n                    (intf.reset_n)
+            .CLK100MHZ                  (intf.clk)
+            , .RESET_N                    (intf.reset_n)
+      
+            , .btn                        (intf.btn)
+            , .sw                         (intf.sw)
+            , .led                        (intf.led)
 
-            , .lfsr0_enable               (intf.enable)
-    
-            , .fifo0_pop                  (intf.pop)
-            , .fifo0_data_out             (intf.data_out)
-            , .fifo0_data_out_valid  (intf.data_out_valid)
-
-            , .fifo0_full                 (intf.full)
-            , .fifo0_empty                (intf.empty)
+            , .led0_b                     (intf.led0_b)
+            , .led0_r                     (intf.led0_r)
+            , .led1_b                     (intf.led1_b)
+            , .led1_g                     (intf.led1_g)
+            , .led1_r                     (intf.led1_r)
+            , .led2_b                     (intf.led2_b)
+            , .led2_r                     (intf.led2_r)
+            , .led3_b                     (intf.led3_b)
         );
   
 endmodule

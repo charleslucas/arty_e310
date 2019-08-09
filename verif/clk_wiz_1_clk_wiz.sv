@@ -11,24 +11,22 @@ module clk_wiz_1_clk_wiz
 
         (// Clock in ports
         // Clock out ports
-        output        clk_out1,
+        output logic  clk_out1,
         // Status and control signals
-        input         resetn,
-        output        locked,
-        input         clk_in1
+        input  logic  resetn,
+        output logic  locked,
+        input  logic  clk_in1
         );
 
-logic clk_out1;
-    
-assign locked = 1'b1;
+    assign locked = 1'b1;
 
-always @ (posedge clk_in1 or negedge resetn) begin
-    if (~resetn) begin
-        clk_out1 <= 1'b0;
+    always @ (posedge clk_in1 or negedge resetn) begin
+        if (~resetn) begin
+            clk_out1 <= 1'b0;
+        end
+        else begin
+            clk_out1 <= ~clk_out1;
+        end
     end
-    else begin
-        clk_out <= ~clk_out;
-    end
-end
     
 endmodule

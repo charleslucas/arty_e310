@@ -22,6 +22,8 @@ module xc7a35t_top (
        , output led2_b  // Test LEDs (connected to switches)
        , output led2_r  // Test LEDs (connected to switches)
 
+       , output led3_r  // Test LEDs (connected to switches)
+       , output led3_g  // Test LEDs (connected to switches)
        , output led3_b  // Test LEDs (connected to switches)
     );
 
@@ -33,6 +35,7 @@ localparam LFSR_OUTPUT_BITS_PER_CLOCK = 4;
 localparam FIFO_WIDTH                 = 4;  // This should match LFSR_OUTPUT_BITS_PER_CLOCK, if not adjust assignment below
 localparam FIFO_DEPTH                 = 16;
 
+logic                                  clk_out1;
 logic                                  clk0_locked;
 logic                                  reset_n;
 

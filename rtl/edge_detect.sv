@@ -1,5 +1,5 @@
 // =================================
-// Edge Detection
+// Edge Detector
 // Copyright 2019
 // Charles Lucas
 // charles@lucas.net
