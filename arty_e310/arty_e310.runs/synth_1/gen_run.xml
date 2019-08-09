@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a35ticsg324-1L" LaunchTime="1565284554">
+<GenRun Id="synth_1" LaunchPart="xc7a35ticsg324-1L" LaunchTime="1565317219">
   <File Type="PA-TCL" Name="xc7a35t_top.tcl"/>
   <File Type="RDS-PROPCONSTRS" Name="xc7a35t_top_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="xc7a35t_top_reports.tcl"/>
@@ -12,6 +12,13 @@
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PPRDIR/../rtl/clk_wiz_1_clk_wiz.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/edge_detect.sv">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>

@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
-| Date         : Thu Aug  8 10:17:30 2019
+| Date         : Thu Aug  8 19:21:55 2019
 | Host         : SHULKER running 64-bit major release  (build 9200)
 | Command      : report_methodology -file xc7a35t_top_methodology_drc_routed.rpt -pb xc7a35t_top_methodology_drc_routed.pb -rpx xc7a35t_top_methodology_drc_routed.rpx
 | Design       : xc7a35t_top
@@ -23,12 +23,18 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max violations: <unlimited>
-             Violations found: 0
-+------+----------+-------------+------------+
-| Rule | Severity | Description | Violations |
-+------+----------+-------------+------------+
-+------+----------+-------------+------------+
+             Violations found: 1
++---------+----------+------------------------------+------------+
+| Rule    | Severity | Description                  | Violations |
++---------+----------+------------------------------+------------+
+| LUTAR-1 | Warning  | LUT drives async reset alert | 1          |
++---------+----------+------------------------------+------------+
 
 2. REPORT DETAILS
 -----------------
+LUTAR-1#1 Warning
+LUT drives async reset alert  
+LUT cell led3_b_OBUF_inst_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) btn0_edge_detect/signal_ff_reg/PRE, btn1_edge_detect/signal_ff_reg/PRE, fifo_0/pop_ptr_reg[0]/CLR, fifo_0/pop_ptr_reg[1]/CLR, fifo_0/pop_ptr_reg[2]/CLR, fifo_0/pop_ptr_reg[3]/CLR, fifo_0/push_ptr_reg[0]/CLR, fifo_0/push_ptr_reg[1]/CLR, fifo_0/push_ptr_reg[2]/CLR, fifo_0/push_ptr_reg[3]/CLR, galois_lfsr_0/lfsr_out_reg[0]/CLR, galois_lfsr_0/lfsr_out_reg[1]/CLR, galois_lfsr_0/lfsr_out_reg[2]/CLR, galois_lfsr_0/lfsr_out_reg[3]/CLR, galois_lfsr_0/lfsr_reg[1]/CLR (the first 15 of 24 listed). The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
 

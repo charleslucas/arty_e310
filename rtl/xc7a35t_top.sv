@@ -8,11 +8,21 @@
 module xc7a35t_top (
          input CLK100MHZ
        , input RESET_N
-       , input btn
-       , input sw
+       , input [1:0] btn
+       , input [3:0] sw
+
        , output [3:0] led
-       , output led0_g
-       , output led1_b
+       , output led0_b  // Clock locked
+       , output led0_r  // LFSR0 Output Valid
+
+       , output led1_b  // FIFO0 Output Valid
+       , output led1_g  // FIFO0 Push
+       , output led1_r  // FIFO0 Pop
+
+       , output led2_b  // Test LEDs (connected to switches)
+       , output led2_r  // Test LEDs (connected to switches)
+
+       , output led3_b  // Test LEDs (connected to switches)
     );
 
 
@@ -23,9 +33,17 @@ localparam LFSR_OUTPUT_BITS_PER_CLOCK = 4;
 localparam FIFO_WIDTH                 = 4;  // This should match LFSR_OUTPUT_BITS_PER_CLOCK, if not adjust assignment below
 localparam FIFO_DEPTH                 = 16;
 
+logic                                  clk0_locked;
+logic                                  reset_n;
+
+logic                                  btn0_pulse;  // Push into FIFO/Enable LFSR for one clock
+logic                                  btn1_pulse;  // Pop from FIFO
+
 logic                                  lfsr0_enable;
 
 logic [LFSR_OUTPUT_BITS_PER_CLOCK-1:0] lfsr0_out;
+logic                                  lfsr0_output_valid;
+
 logic [FIFO_WIDTH-1:0]                 fifo0_data_in;
 
 logic [FIFO_WIDTH-1:0]                 fifo0_data_out;
@@ -34,9 +52,17 @@ logic                                  fifo0_data_out_valid;
 logic fifo0_full;
 logic fifo0_empty;
 
-logic clk0_locked;
-logic reset_n;
-
+// Tri-Color LED Assignments
+assign led    = fifo0_data_out;
+assign led0_r = lfsr0_output_valid;
+assign led1_r = btn[1];
+assign led1_b = fifo0_data_out_valid;
+assign led1_g = btn[0];
+assign led2_r = fifo0_full;
+assign led2_b = fifo0_empty;
+assign led3_r = sw[0] || sw[1];
+assign led3_b = sw[0] || sw[2];    // Assign test LED outputs to switches
+assign led3_g = sw[0] || sw[3];
 
 // Instantiate 50Mhz Clk with active-low reset input
 clk_wiz_1_clk_wiz inst
@@ -45,11 +71,30 @@ clk_wiz_1_clk_wiz inst
         .clk_out1(clk_out1),
         // Status and control signals               
         .resetn(RESET_N), 
-        .locked(led0_g),
+        .locked(led0_b),
         // Clock in ports
         .clk_in1(CLK100MHZ)
     );
 
+// Create an edge detect pulse when button 0 is de-asserted
+edge_detect btn0_edge_detect
+    (
+          .clk (clk_out1)
+        , .reset_n(RESET_N)
+        , .signal(btn[0])
+        , .pulse(btn0_pulse) 
+    );
+
+// Create an edge detect pulse when button 0 is de-asserted
+edge_detect btn1_edge_detect
+    (
+          .clk (clk_out1)
+        , .reset_n(RESET_N)
+        , .signal(btn[1])
+        , .pulse(btn1_pulse) 
+    );
+
+assign lfsr0_enable = btn0_pulse & ~fifo0_full;
 
 // Parallel Galois LFSR, outputs 4 pseudo-random bits per clock
 galois_lfsr #(
@@ -62,11 +107,11 @@ galois_lfsr #(
         , .reset_n    (RESET_N)
 
         // Inputs
-        , .enable     (sw)
+        , .enable     (lfsr0_enable)
 
         // Outputs
         , .lfsr_out   (lfsr0_out)
-        , .lfsr_valid (lfsr_valid)
+        , .lfsr_valid (lfsr0_output_valid)
 );
 
 
@@ -81,15 +126,15 @@ fifo #(
           .clk            (clk_out1)
         , .reset_n        (RESET_N)
 
-        , .push           (push)
+        , .push           (lfsr0_output_valid)
         , .data_in        (fifo0_data_in)
 
-        , .pop            (btn)
-        , .data_out       (led)
-        , .data_out_valid (led1_b)
+        , .pop            (btn1_pulse)
+        , .data_out       (fifo0_data_out)
+        , .data_out_valid ()
 
-        , .full           (fifo0_full)
         , .empty          (fifo0_empty)
+        , .full           (fifo0_full)
 );
 
 endmodule

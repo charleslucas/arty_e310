@@ -15,9 +15,9 @@ Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35ti'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35ti'
 INFO: [Device 21-403] Loading part xc7a35ticsg324-1L
 INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 5292 
+INFO: Helper process launched with PID 26732 
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 794.570 ; gain = 177.152
+Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:03 . Memory (MB): peak = 795.066 ; gain = 178.000
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-6157] synthesizing module 'xc7a35t_top' [C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/xc7a35t_top.sv:8]
 	Parameter LFSR_WIDTH bound to: 8 - type: integer 
@@ -86,20 +86,27 @@ INFO: [Synth 8-6155] done synthesizing module 'MMCME2_ADV' (2#1) [C:/Xilinx/Viva
 INFO: [Synth 8-6157] synthesizing module 'BUFG' [C:/Xilinx/Vivado/2019.1/scripts/rt/data/unisim_comp.v:1075]
 INFO: [Synth 8-6155] done synthesizing module 'BUFG' (3#1) [C:/Xilinx/Vivado/2019.1/scripts/rt/data/unisim_comp.v:1075]
 INFO: [Synth 8-6155] done synthesizing module 'clk_wiz_1_clk_wiz' (4#1) [C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/clk_wiz_1_clk_wiz.v:68]
+INFO: [Synth 8-6157] synthesizing module 'edge_detect' [C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/edge_detect.sv:10]
+	Parameter ACTIVE_LOW bound to: 1'b0 
+WARNING: [Synth 8-5788] Register signal_ff_reg in module edge_detect is has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/edge_detect.sv:27]
+INFO: [Synth 8-6155] done synthesizing module 'edge_detect' (5#1) [C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/edge_detect.sv:10]
 INFO: [Synth 8-6157] synthesizing module 'galois_lfsr' [C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/galois_lfsr.sv:8]
 	Parameter LFSR_WIDTH bound to: 8 - type: integer 
 	Parameter LFSR_SEED bound to: 1 - type: integer 
 	Parameter LFSR_OUTPUT_BITS_PER_CLOCK bound to: 4 - type: integer 
-INFO: [Synth 8-6155] done synthesizing module 'galois_lfsr' (5#1) [C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/galois_lfsr.sv:8]
+INFO: [Synth 8-6155] done synthesizing module 'galois_lfsr' (6#1) [C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/galois_lfsr.sv:8]
 INFO: [Synth 8-6157] synthesizing module 'fifo' [C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/fifo.sv:8]
 	Parameter FIFO_WIDTH bound to: 4 - type: integer 
 	Parameter FIFO_DEPTH bound to: 16 - type: integer 
 	Parameter PTR_WIDTH bound to: 4 - type: integer 
-INFO: [Synth 8-6155] done synthesizing module 'fifo' (6#1) [C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/fifo.sv:8]
-WARNING: [Synth 8-3848] Net push in module/entity xc7a35t_top does not have driver. [C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/xc7a35t_top.sv:84]
-INFO: [Synth 8-6155] done synthesizing module 'xc7a35t_top' (7#1) [C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/xc7a35t_top.sv:8]
+INFO: [Synth 8-6155] done synthesizing module 'fifo' (7#1) [C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/fifo.sv:8]
+WARNING: [Synth 8-3848] Net fifo0_data_out_valid in module/entity xc7a35t_top does not have driver. [C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/xc7a35t_top.sv:50]
+INFO: [Synth 8-6155] done synthesizing module 'xc7a35t_top' (8#1) [C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/xc7a35t_top.sv:8]
+WARNING: [Synth 8-3331] design xc7a35t_top has unconnected port led1_b
+WARNING: [Synth 8-3331] design xc7a35t_top has unconnected port sw[3]
+WARNING: [Synth 8-3331] design xc7a35t_top has unconnected port sw[1]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 858.363 ; gain = 240.945
+Finished RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:04 . Memory (MB): peak = 858.398 ; gain = 241.332
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -112,10 +119,10 @@ Report Check Netlist:
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 858.363 ; gain = 240.945
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 858.398 ; gain = 241.332
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 858.363 ; gain = 240.945
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 858.398 ; gain = 241.332
 ---------------------------------------------------------------------------------
 INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
@@ -124,35 +131,41 @@ INFO: [Project 1-570] Preparing netlist for logic optimization
 Processing XDC Constraints
 Initializing timing engine
 Parsing XDC File [C:/Users/Charley Lucas/Documents/_Reference/Arty_Board/digilent-xdc-master-constraints/Arty-Master.xdc]
+WARNING: [Vivado 12-584] No ports matched 'led3_g'. [C:/Users/Charley Lucas/Documents/_Reference/Arty_Board/digilent-xdc-master-constraints/Arty-Master.xdc:27]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Charley Lucas/Documents/_Reference/Arty_Board/digilent-xdc-master-constraints/Arty-Master.xdc:27]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'led3_r'. [C:/Users/Charley Lucas/Documents/_Reference/Arty_Board/digilent-xdc-master-constraints/Arty-Master.xdc:28]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [C:/Users/Charley Lucas/Documents/_Reference/Arty_Board/digilent-xdc-master-constraints/Arty-Master.xdc:28]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
 Finished Parsing XDC File [C:/Users/Charley Lucas/Documents/_Reference/Arty_Board/digilent-xdc-master-constraints/Arty-Master.xdc]
 INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Users/Charley Lucas/Documents/_Reference/Arty_Board/digilent-xdc-master-constraints/Arty-Master.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/xc7a35t_top_propImpl.xdc].
 Resolution: To avoid this warning, move constraints listed in [.Xil/xc7a35t_top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 INFO: [Timing 38-2] Deriving generated clocks
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 941.668 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 948.848 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.006 . Memory (MB): peak = 941.668 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.003 . Memory (MB): peak = 948.848 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 941.668 ; gain = 324.250
+Finished Constraint Validation : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 948.848 ; gain = 331.781
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a35ticsg324-1L
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 941.668 ; gain = 324.250
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 948.848 ; gain = 331.781
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 941.668 ; gain = 324.250
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 948.848 ; gain = 331.781
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 941.668 ; gain = 324.250
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 948.848 ; gain = 331.781
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -172,9 +185,11 @@ Detailed RTL Component Info :
 +---Registers : 
 	                8 Bit    Registers := 1     
 	                4 Bit    Registers := 3     
-	                1 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
 +---RAMs : 
 	               64 Bit         RAMs := 1     
++---Muxes : 
+	   2 Input      1 Bit        Muxes := 2     
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -182,6 +197,12 @@ Finished RTL Component Statistics
 Start RTL Hierarchical Component Statistics 
 ---------------------------------------------------------------------------------
 Hierarchical RTL Component report 
+Module edge_detect 
+Detailed RTL Component Info : 
++---Registers : 
+	                1 Bit    Registers := 1     
++---Muxes : 
+	   2 Input      1 Bit        Muxes := 1     
 Module galois_lfsr 
 Detailed RTL Component Info : 
 +---XORs : 
@@ -215,12 +236,10 @@ Finished Part Resource Summary
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 Warning: Parallel synthesis criteria is not met 
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\fifo_0/push_ptr0_inferred__0 /\fifo_0/push_ptr_reg[3] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\fifo_0/push_ptr0_inferred__0 /\fifo_0/push_ptr_reg[0] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\fifo_0/push_ptr0_inferred__0 /\fifo_0/push_ptr_reg[1] )
-INFO: [Synth 8-3333] propagating constant 0 across sequential element (\fifo_0/push_ptr0_inferred__0 /\fifo_0/push_ptr_reg[2] )
+WARNING: [Synth 8-3331] design xc7a35t_top has unconnected port led1_b
+WARNING: [Synth 8-3331] design xc7a35t_top has unconnected port sw[3]
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 941.668 ; gain = 324.250
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 948.848 ; gain = 331.781
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP and Shift Register Reporting
@@ -247,13 +266,13 @@ Report RTL Partitions:
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 946.098 ; gain = 328.680
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 948.848 ; gain = 331.781
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 955.629 ; gain = 338.211
+Finished Timing Optimization : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 953.293 ; gain = 336.227
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP and Shift Register Reporting
@@ -283,7 +302,7 @@ INFO: [Synth 8-3886] merging instance 'fifo_0/pop_ptr_reg_rep[1]' (FDCE) to 'fif
 INFO: [Synth 8-3886] merging instance 'fifo_0/pop_ptr_reg_rep[2]' (FDCE) to 'fifo_0/pop_ptr_reg[2]'
 INFO: [Synth 8-3886] merging instance 'fifo_0/pop_ptr_reg_rep[3]' (FDCE) to 'fifo_0/pop_ptr_reg[3]'
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 965.160 ; gain = 347.742
+Finished Technology Mapping : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 962.816 ; gain = 345.750
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -307,7 +326,7 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 970.941 ; gain = 353.523
+Finished IO Insertion : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 969.602 ; gain = 352.535
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -320,7 +339,7 @@ Report Check Netlist:
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 970.941 ; gain = 353.523
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 969.602 ; gain = 352.535
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -332,25 +351,25 @@ Report RTL Partitions:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 970.941 ; gain = 353.523
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 969.602 ; gain = 352.535
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 970.941 ; gain = 353.523
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 969.602 ; gain = 352.535
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 970.941 ; gain = 353.523
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 969.602 ; gain = 352.535
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 970.941 ; gain = 353.523
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 969.602 ; gain = 352.535
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -367,51 +386,55 @@ Report Cell Usage:
 |      |Cell       |Count |
 +------+-----------+------+
 |1     |BUFG       |     2|
-|2     |LUT1       |     2|
-|3     |LUT2       |     3|
-|4     |LUT3       |     3|
-|5     |LUT4       |     4|
-|6     |LUT5       |     1|
-|7     |MMCME2_ADV |     1|
-|8     |RAM32M     |     1|
-|9     |FDCE       |    15|
-|10    |FDPE       |     1|
-|11    |IBUF       |     4|
-|12    |OBUF       |     6|
+|2     |LUT1       |     3|
+|3     |LUT2       |     5|
+|4     |LUT3       |     5|
+|5     |LUT4       |     5|
+|6     |LUT5       |     2|
+|7     |LUT6       |     3|
+|8     |MMCME2_ADV |     1|
+|9     |RAM32M     |     1|
+|10    |FDCE       |    20|
+|11    |FDPE       |     3|
+|12    |IBUF       |     6|
+|13    |OBUF       |    11|
+|14    |OBUFT      |     1|
 +------+-----------+------+
 
 Report Instance Areas: 
-+------+----------------+------------------+------+
-|      |Instance        |Module            |Cells |
-+------+----------------+------------------+------+
-|1     |top             |                  |    43|
-|2     |  fifo_0        |fifo              |    11|
-|3     |  galois_lfsr_0 |galois_lfsr       |    19|
-|4     |  inst          |clk_wiz_1_clk_wiz |     4|
-+------+----------------+------------------+------+
++------+-------------------+------------------+------+
+|      |Instance           |Module            |Cells |
++------+-------------------+------------------+------+
+|1     |top                |                  |    68|
+|2     |  btn0_edge_detect |edge_detect       |     1|
+|3     |  btn1_edge_detect |edge_detect_0     |     1|
+|4     |  fifo_0           |fifo              |    24|
+|5     |  galois_lfsr_0    |galois_lfsr       |    20|
+|6     |  inst             |clk_wiz_1_clk_wiz |     4|
++------+-------------------+------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 970.941 ; gain = 353.523
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 969.602 ; gain = 352.535
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 0 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:12 ; elapsed = 00:00:17 . Memory (MB): peak = 970.941 ; gain = 270.219
-Synthesis Optimization Complete : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 970.941 ; gain = 353.523
+Synthesis finished with 0 errors, 0 critical warnings and 2 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:12 ; elapsed = 00:00:18 . Memory (MB): peak = 969.602 ; gain = 262.086
+Synthesis Optimization Complete : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 969.602 ; gain = 352.535
 INFO: [Project 1-571] Translating synthesized netlist
 INFO: [Netlist 29-17] Analyzing 2 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 989.012 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 988.305 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 1 instances were transformed.
   RAM32M => RAM32M (RAMD32, RAMD32, RAMD32, RAMD32, RAMD32, RAMD32, RAMS32, RAMS32): 1 instances
 
 INFO: [Common 17-83] Releasing license: Synthesis
-37 Infos, 1 Warnings, 0 Critical Warnings and 0 Errors encountered.
+35 Infos, 9 Warnings, 2 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:23 ; elapsed = 00:00:25 . Memory (MB): peak = 989.012 ; gain = 632.113
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 989.012 ; gain = 0.000
+synth_design: Time (s): cpu = 00:00:24 ; elapsed = 00:00:26 . Memory (MB): peak = 988.305 ; gain = 631.793
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 988.305 ; gain = 0.000
 WARNING: [Constraints 18-5210] No constraints selected for write.
 Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
 INFO: [Common 17-1381] The checkpoint 'C:/cygwin64/home/cdlucas/devel/github/arty_e310/arty_e310/arty_e310.runs/synth_1/xc7a35t_top.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file xc7a35t_top_utilization_synth.rpt -pb xc7a35t_top_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Thu Aug  8 10:16:27 2019...
+INFO: [Common 17-206] Exiting Vivado at Thu Aug  8 19:20:52 2019...
