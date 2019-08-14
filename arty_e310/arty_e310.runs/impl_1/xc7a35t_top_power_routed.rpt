@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
-| Date             : Thu Aug  8 19:21:55 2019
+| Date             : Wed Aug 14 14:25:26 2019
 | Host             : SHULKER running 64-bit major release  (build 9200)
 | Command          : report_power -file xc7a35t_top_power_routed.rpt -pb xc7a35t_top_power_summary_routed.pb -rpx xc7a35t_top_power_routed.rpx
 | Design           : xc7a35t_top
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.172        |
+| Total On-Chip Power (W)  | 0.173        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.110        |
+| Dynamic (W)              | 0.111        |
 | Device Static (W)        | 0.062        |
 | Effective TJA (C/W)      | 4.8          |
 | Max Ambient (C)          | 99.2         |
@@ -53,16 +53,16 @@ Table of Contents
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
 | Clocks                   |    <0.001 |        5 |       --- |             --- |
-| Slice Logic              |    <0.001 |       63 |       --- |             --- |
-|   LUT as Logic           |    <0.001 |       17 |     20800 |            0.08 |
+| Slice Logic              |    <0.001 |       83 |       --- |             --- |
+|   LUT as Logic           |    <0.001 |       30 |     20800 |            0.14 |
 |   LUT as Distributed RAM |    <0.001 |        4 |      9600 |            0.04 |
-|   Register               |    <0.001 |       24 |     41600 |            0.06 |
+|   Register               |    <0.001 |       28 |     41600 |            0.07 |
 |   Others                 |     0.000 |        8 |       --- |             --- |
-| Signals                  |    <0.001 |       45 |       --- |             --- |
+| Signals                  |    <0.001 |       63 |       --- |             --- |
 | MMCM                     |     0.106 |        1 |         5 |           20.00 |
-| I/O                      |     0.004 |       18 |       210 |            8.57 |
+| I/O                      |     0.005 |       22 |       210 |           10.48 |
 | Static Power             |     0.062 |          |           |                 |
-| Total                    |     0.172 |          |           |                 |
+| Total                    |     0.173 |          |           |                 |
 +--------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -143,7 +143,7 @@ Table of Contents
 +-------------+-----------+
 | Name        | Power (W) |
 +-------------+-----------+
-| xc7a35t_top |     0.110 |
+| xc7a35t_top |     0.111 |
 |   inst      |     0.106 |
 +-------------+-----------+
 

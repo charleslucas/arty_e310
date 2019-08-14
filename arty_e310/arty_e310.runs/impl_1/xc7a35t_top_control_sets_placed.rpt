@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
-| Date         : Thu Aug  8 19:21:35 2019
+| Date         : Wed Aug 14 14:25:06 2019
 | Host         : SHULKER running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file xc7a35t_top_control_sets_placed.rpt
 | Design       : xc7a35t_top
@@ -27,7 +27,7 @@ Table of Contents
 |    Minimum number of control sets                        |     5 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |     8 |
+| Unused register locations in slices containing registers |    12 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -43,8 +43,8 @@ Table of Contents
 | >= 0 to < 4        |     0 |
 | >= 4 to < 6        |     2 |
 | >= 6 to < 8        |     0 |
-| >= 8 to < 10       |     3 |
-| >= 10 to < 12      |     0 |
+| >= 8 to < 10       |     2 |
+| >= 10 to < 12      |     1 |
 | >= 12 to < 14      |     0 |
 | >= 14 to < 16      |     0 |
 | >= 16              |     0 |
@@ -59,10 +59,10 @@ Table of Contents
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | No           | No                    | No                     |               0 |            0 |
-| No           | No                    | Yes                    |               8 |            3 |
+| No           | No                    | Yes                    |              10 |            4 |
 | No           | Yes                   | No                     |               0 |            0 |
 | Yes          | No                    | No                     |               0 |            0 |
-| Yes          | No                    | Yes                    |              16 |            4 |
+| Yes          | No                    | Yes                    |              18 |            3 |
 | Yes          | Yes                   | No                     |               0 |            0 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
@@ -70,14 +70,14 @@ Table of Contents
 4. Detailed Control Set Information
 -----------------------------------
 
-+--------------+---------------------------------------+--------------------------+------------------+----------------+
-| Clock Signal |             Enable Signal             |     Set/Reset Signal     | Slice Load Count | Bel Load Count |
-+--------------+---------------------------------------+--------------------------+------------------+----------------+
-|  inst/CLK    | fifo_0/fifo_data_reg_0_15_0_3_i_1_n_0 | galois_lfsr_0/reset_high |                2 |              4 |
-|  inst/CLK    | fifo_0/pop_ptr0                       | galois_lfsr_0/reset_high |                1 |              4 |
-|  inst/CLK    |                                       | galois_lfsr_0/reset_high |                3 |              8 |
-|  inst/CLK    | fifo_0/fifo_data_reg_0_15_0_3_i_1_n_0 |                          |                1 |              8 |
-|  inst/CLK    | fifo_0/E[0]                           | galois_lfsr_0/reset_high |                1 |              8 |
-+--------------+---------------------------------------+--------------------------+------------------+----------------+
++--------------+------------------+--------------------------+------------------+----------------+
+| Clock Signal |   Enable Signal  |     Set/Reset Signal     | Slice Load Count | Bel Load Count |
++--------------+------------------+--------------------------+------------------+----------------+
+|  inst/CLK    | fifo_0/pop_ptr0  | galois_lfsr_0/reset_high |                1 |              5 |
+|  inst/CLK    | fifo_0/ack_next  | galois_lfsr_0/reset_high |                1 |              5 |
+|  inst/CLK    | fifo_0/E[0]      | galois_lfsr_0/reset_high |                1 |              8 |
+|  inst/CLK    | fifo_0/p_0_in__2 |                          |                1 |              8 |
+|  inst/CLK    |                  | galois_lfsr_0/reset_high |                4 |             10 |
++--------------+------------------+--------------------------+------------------+----------------+
 
 

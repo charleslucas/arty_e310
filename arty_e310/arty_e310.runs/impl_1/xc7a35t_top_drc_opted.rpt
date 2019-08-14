@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
-| Date         : Thu Aug  8 19:21:33 2019
+| Date         : Wed Aug 14 14:25:04 2019
 | Host         : SHULKER running 64-bit major release  (build 9200)
 | Command      : report_drc -file xc7a35t_top_drc_opted.rpt -pb xc7a35t_top_drc_opted.pb -rpx xc7a35t_top_drc_opted.rpx
 | Design       : xc7a35t_top
