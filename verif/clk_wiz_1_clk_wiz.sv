@@ -8,24 +8,25 @@
 `timescale 1ps/1ps
 
 module clk_wiz_1_clk_wiz 
+        (
+          input  logic  clk_in1
+        , input  logic  resetn
 
-        (// Clock in ports
-        // Clock out ports
-        output logic  clk_out1,
-        // Status and control signals
-        input  logic  resetn,
-        output logic  locked,
-        input  logic  clk_in1
+        , output logic  clk_out1
+        , output logic  locked
         );
+    
+    logic clk_out1_next;
 
-    assign locked = 1'b1;
+    assign clk_out1_next = ~clk_out1;
+    assign locked = 1'b1;  // Behavioral, we are always locked
 
     always @ (posedge clk_in1 or negedge resetn) begin
         if (~resetn) begin
             clk_out1 <= 1'b0;
         end
         else begin
-            clk_out1 <= ~clk_out1;
+            clk_out1 <= clk_out1_next;
         end
     end
     

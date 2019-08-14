@@ -19,9 +19,10 @@ module galois_lfsr #(
         , output logic                                  lfsr_valid
         );
   
+    logic                  initialize;
     logic [LFSR_WIDTH-1:0] lfsr;
     logic [LFSR_WIDTH-1:0] lfsr_next;
-    logic lfsr_valid_next;
+    logic                  lfsr_valid_next;
     logic [LFSR_OUTPUT_BITS_PER_CLOCK-1:0] lfsr_out_next;
   
     generate
@@ -184,15 +185,17 @@ module galois_lfsr #(
         end
     endgenerate
   
-    always_comb lfsr_valid_next = enable;
+    always_comb lfsr_valid_next = ~initialize;  // Eventually we may need to initialize for multiple clocks
   
     always @ (posedge clk or negedge reset_n) begin
         if (!reset_n) begin
+            initialize  <= 1'b1;  // Initialize for one clock after reset is deasserted
             lfsr        <= LFSR_SEED;
             lfsr_valid  <= 1'b0;
             lfsr_out    <= 1'b0;
         end
         else begin
+            initialize  <= 1'b0;
             lfsr        <= lfsr_next;
             lfsr_valid  <= lfsr_valid_next;
             lfsr_out    <= lfsr_out_next;  // Flop the output data so it lines up with lfsr_valid

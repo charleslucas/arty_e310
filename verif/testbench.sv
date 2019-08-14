@@ -37,6 +37,13 @@ class env extends uvm_env;
         `uvm_info("LABEL", "Finished connect phase.", UVM_HIGH);
     endfunction: connect_phase
 
+    task button_press (int button);
+        m_if.cb.btn[button] <= 1'b1;
+
+        repeat(4) @(m_if.cb);  // Button push lasts multiple clocks
+        m_if.cb.btn[button] <= 1'b0;
+    endtask
+    
     task run_phase(uvm_phase phase);
         phase.raise_objection(this);
         `uvm_info("LABEL", "Started run phase.", UVM_HIGH);
@@ -50,35 +57,54 @@ class env extends uvm_env;
             // Wait a clock for reset_n to be driven
             @(m_if.cb);
 
-                // Wait for reset_n to be deasserted
+            // Wait for reset_n to be deasserted
             while (m_if.reset_n !== 1'b1) begin
                 @(m_if.cb);
             end
             `uvm_info("LABEL", "Reset deasserted.", UVM_HIGH);
-      
-            // Wait a few clocks and then pulse enable for lfsr pattern generation
-            repeat(10) @(m_if.cb);
-            m_if.cb.btn[0] <= 1'b1;
 
-            repeat(1) @(m_if.cb);
-            m_if.cb.btn[0] <= 1'b0;
+            // Loop and fill up FIFO0 with data from LFSR0
+            for (int i=0; i < 16; i = i + 1) begin 
+               // Wait a few clocks and then push the button for FIFO0 to grab in input from LFSR0
+               repeat(10) @(m_if.cb);
+               button_press(0);
+            end
+            
+            // Wait a few clocks for visibility in the waveform
+            repeat(30) @(m_if.cb);
 
-            // Wait a few clocks and then pulse enable for lfsr pattern generation
-            repeat(4) @(m_if.cb);
-            m_if.cb.btn[0] <= 1'b1;
+            // Try a couple more pushes to LFSR0, but these should be ignored since the FIFO is full
+            for (int i=0; i < 2; i = i + 1) begin 
+                // Wait a few clocks and then push the button for FIFO0 to grab in input from LFSR0
+                repeat(10) @(m_if.cb);
+                button_press(0);
+            end
+            
+            // Wait a few clocks for visibility in the waveform
+            repeat(30) @(m_if.cb);
 
-            repeat(1) @(m_if.cb);
-            m_if.cb.btn[0] <= 1'b0;
+            // Pop some data from LFSR0 - should see on LED[3:0] - should result in FIFO0 being empty
+            for (int i=0; i < 16; i = i + 1) begin 
+                // Wait a few clocks and then push the button for FIFO0 to grab in input from LFSR0
+                repeat(10) @(m_if.cb);
+                button_press(1);
+            end
 
-            // Wait a few clocks and then pulse pop to read data out from FIFO
-            repeat(4) @(m_if.cb);
-            m_if.cb.btn[1] <= 1'b1;
+            // Wait a few clocks for visibility in the waveform
+            repeat(30) @(m_if.cb);
 
-            repeat(1) @(m_if.cb);
-            m_if.cb.btn[1] <= 1'b0;
+            // Try a couple more pops from LFSR0 - should be ignored as FIFO0 is empty
+            for (int i=0; i < 2; i = i + 1) begin 
+                // Wait a few clocks and then push the button for FIFO0 to grab in input from LFSR0
+                repeat(10) @(m_if.cb);
+                button_press(1);
+            end
 
             // Wait for the fifo to fill up or our timeout limit to be reached
-            while (m_if.cb.led2_r !== 1'b1 && loop_count < 100) begin
+            //while (m_if.cb.led2_r !== 1'b1 && loop_count < 100) begin
+
+            // Run a little longer before exitting
+            while (loop_count < 40) begin
                 @(m_if.cb);
                 loop_count = loop_count + 1;
             end
@@ -177,7 +203,9 @@ module ti #() ();
             , .led1_r                     (intf.led1_r)
             , .led2_b                     (intf.led2_b)
             , .led2_r                     (intf.led2_r)
+            , .led3_r                     (intf.led3_r)
             , .led3_b                     (intf.led3_b)
+            , .led3_g                     (intf.led3_g)
         );
   
 endmodule

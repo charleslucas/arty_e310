@@ -24,7 +24,7 @@ module edge_detect #(
     
     always @(posedge clk or negedge reset_n) begin
         if (!reset_n) begin
-            signal_ff = ~ACTIVE_LOW;
+            signal_ff = 1'b0;
         end
         else begin
             signal_ff <= signal;
