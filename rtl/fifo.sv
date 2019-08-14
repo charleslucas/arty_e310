@@ -36,15 +36,15 @@ module fifo #(
     logic [FIFO_WIDTH-1:0] fifo_data_next;
     logic [FIFO_WIDTH-1:0] fifo_data [FIFO_DEPTH-1:0];
   
-    assign empty = (push_ptr[PTR_WIDTH-1:0] == pop_ptr[PTR_WIDTH-1:0]);  // All bits match
-    assign full  = (push_ptr[PTR_WIDTH-2:0] == pop_ptr[PTR_WIDTH-2:0]) && (push_ptr[PTR_WIDTH-1] != pop_ptr[PTR_WIDTH-1]);  // Lower bits match, high bit is opposite
+    always_comb empty = (push_ptr[PTR_WIDTH-1:0] == pop_ptr[PTR_WIDTH-1:0]);  // All bits match
+    always_comb full  = (push_ptr[PTR_WIDTH-2:0] == pop_ptr[PTR_WIDTH-2:0]) && (push_ptr[PTR_WIDTH-1] != pop_ptr[PTR_WIDTH-1]);  // Lower bits match, high bit is opposite
   
-    assign ack_next       = (push && !full);
-    assign push_ptr_next  = (push && !full) ? push_ptr + 1 : push_ptr;
-    assign fifo_data_next = (push && !full) ? data_in      : fifo_data[push_ptr];
+    always_comb ack_next       = (push && !full);
+    always_comb push_ptr_next  = (push && !full) ? push_ptr + 1 : push_ptr;
+    always_comb fifo_data_next = (push && !full) ? data_in      : fifo_data[push_ptr];
 
-    assign pop_ptr_next   = (pop && !empty) ? pop_ptr  + 1 : pop_ptr;
-    assign data_out       = fifo_data[pop_ptr];
+    always_comb pop_ptr_next   = (pop && !empty) ? pop_ptr  + 1 : pop_ptr;
+    always_comb data_out       = fifo_data[pop_ptr];
   
     always @ (posedge clk or negedge reset_n) begin
         if (~reset_n) begin

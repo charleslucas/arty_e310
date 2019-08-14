@@ -5,7 +5,7 @@
 // charles@lucas.net
 // =================================
 
-// Uncomment when simulating on EDA Playground w' Aldec Riviera Pro
+// Uncomment when simulating on EDA Playground
 //`define EDA_PLAYGROUND
 
 `ifdef EDA_PLAYGROUND
@@ -70,7 +70,7 @@ logic fifo0_full;
 logic fifo0_empty;
 
 // Tri-Color LED Assignments
-assign led    = fifo0_data_out;
+assign led    = (fifo0_empty) ? 'b0 : fifo0_data_out;  // If the FIFO is empty, blank the LEDs
 assign led0_r = lfsr0_output_valid;
 assign led0_b = clk0_locked;
 assign led1_r = btn[1];
