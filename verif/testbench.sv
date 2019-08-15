@@ -1,5 +1,5 @@
 // =================================
-// Top-Level Testbench for EDA Playground (testbench.sv)
+// Top-Level Testbench for EDA Playground v3 (testbench.sv)
 // Copyright 2019
 // Charles Lucas
 // charles@lucas.net
@@ -189,7 +189,7 @@ module ti #() ();
     //---------------------------------------
     xc7a35t_top #() DUT (
             // Connect the interface to the DUT RTL Signals
-            .CLK100MHZ                  (intf.clk)
+              .CLK100MHZ                  (intf.clk)
             , .RESET_N                    (intf.reset_n)
       
             , .btn                        (intf.btn)

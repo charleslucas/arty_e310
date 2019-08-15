@@ -6,20 +6,22 @@
 // =================================
 
 // Uncomment when simulating on EDA Playground
-//`define EDA_PLAYGROUND
+`define EDA_PLAYGROUND
 
 `ifdef EDA_PLAYGROUND
   `include "fifo.sv"
   `include "galois_lfsr.sv"
   `include "design_if.sv"
+  `include "pulse_to_edge.sv"
   `include "edge_detect.sv"
   `include "clk_wiz_1_clk_wiz.sv"
+  `include "clk_wiz_3_clk_wiz.sv"
 `endif
 
 
 module xc7a35t_top (
          input        CLK100MHZ
-       , input        RESET_N
+       , input        RESET_N    // TODO:  Synchronize the resets for each clock domain
 
        , input  [1:0] btn
        , input  [3:0] sw
@@ -48,8 +50,11 @@ localparam LFSR_OUTPUT_BITS_PER_CLOCK = 4;
 localparam FIFO_WIDTH                 = 4;  // This should match LFSR_OUTPUT_BITS_PER_CLOCK, if not adjust assignment below
 localparam FIFO_DEPTH                 = 16;
 
-logic                                  clk_out1;
+logic                                  clk0_50;
 logic                                  clk0_locked;
+
+logic                                  clk1_200;
+logic                                  clk1_locked;
 
 logic                                  btn0_pulse;  // Push into FIFO/Enable LFSR for one clock
 logic                                  btn1_pulse;  // Pop from FIFO
@@ -69,6 +74,9 @@ logic                                  fifo0_data_out_valid;
 logic fifo0_full;
 logic fifo0_empty;
 
+logic fifo0_ack_edge;
+logic fifo0_ack_pulse;
+
 // Tri-Color LED Assignments
 assign led    = (fifo0_empty) ? 'b0 : fifo0_data_out;  // If the FIFO is empty, blank the LEDs
 assign led0_r = lfsr0_output_valid;
@@ -83,10 +91,10 @@ assign led3_b = sw[0] || sw[2];    // Assign test LED outputs to switches
 assign led3_g = sw[0] || sw[3];
 
 // Instantiate 50Mhz Clk with active-low reset input
-clk_wiz_1_clk_wiz inst
+clk_wiz_1_clk_wiz clk_50_inst
     (
         // Clock out ports  
-        .clk_out1(clk_out1),
+        .clk_out1(clk0_50),
         // Status and control signals               
         .resetn(RESET_N), 
         .locked(clk0_locked),
@@ -94,10 +102,22 @@ clk_wiz_1_clk_wiz inst
         .clk_in1(CLK100MHZ)
     );
 
+// Instantiate 202Mhz Clk with active-low reset input
+clk_wiz_3_clk_wiz clk_200_inst
+    (
+        // Clock out ports  
+        .clk_out1(clk1_200),
+        // Status and control signals               
+        .resetn(RESET_N), 
+        .locked(clk1_locked),
+        // Clock in ports
+        .clk_in1(CLK100MHZ)
+    );
+
 // Create an edge detect pulse when button 0 is de-asserted
 edge_detect btn0_edge_detect
     (
-          .clk (clk_out1)
+          .clk (clk1_200)
         , .reset_n(RESET_N)
         , .signal(btn[0])
         , .pulse(btn0_pulse) 
@@ -106,13 +126,13 @@ edge_detect btn0_edge_detect
 // Create an edge detect pulse when button 0 is de-asserted
 edge_detect btn1_edge_detect
     (
-          .clk (clk_out1)
+          .clk (clk1_200)
         , .reset_n(RESET_N)
         , .signal(btn[1])
         , .pulse(btn1_pulse) 
     );
 
-assign lfsr0_enable = fifo0_ack;
+assign lfsr0_enable = fifo0_ack_pulse;  // Clock-crossed signal from 200Mhz to 50Mhz
 
 // Parallel Galois LFSR, outputs 4 pseudo-random bits per clock
 galois_lfsr #(
@@ -121,7 +141,7 @@ galois_lfsr #(
         , .LFSR_OUTPUT_BITS_PER_CLOCK (LFSR_OUTPUT_BITS_PER_CLOCK)
         //, LFSR_POLYNOMIAL            ()          // Currently have a fixed polynomial
 ) galois_lfsr_0 (
-          .clk        (clk_out1)
+          .clk        (clk0_50)
         , .reset_n    (RESET_N)
 
         // Inputs
@@ -141,7 +161,7 @@ fifo #(
           .FIFO_WIDTH (FIFO_WIDTH)
         , .FIFO_DEPTH (FIFO_DEPTH)  // Must be a power of two
 ) fifo_0 (
-          .clk            (clk_out1)
+          .clk            (clk1_200)
         , .reset_n        (RESET_N)
 
         , .push           (fifo0_push)
@@ -155,5 +175,27 @@ fifo #(
         , .empty          (fifo0_empty)
         , .full           (fifo0_full)
 );
+
+// Create an edge detect pulse when button 0 is de-asserted
+pulse_to_edge fifo0_ack_edge_convert
+    (
+          .clk (clk1_200)
+        , .reset_n(RESET_N)
+        , .pulse(fifo0_ack) 
+        , .signal(fifo0_ack_edge)
+    );
+
+// Create an edge detect pulse when button 0 is de-asserted
+edge_detect #(
+        .ACTIVE_EDGE (2)  // Detect either edge transition
+    )
+    fifo0_ack_edge_detect
+    (
+          .clk (clk0_50)
+        , .reset_n(RESET_N)
+        , .signal(fifo0_ack_edge)
+        , .pulse(fifo0_ack_pulse) 
+    );
+
 
 endmodule

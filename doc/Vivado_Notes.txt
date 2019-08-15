@@ -1,0 +1,7 @@
+How to create a new clock (MMCM):
+
+Window->IP Catalog
+In "IP Catalog" window:
+  Vivado Repository->FPGA Features and Design->Clocking->Clocking Wizard
+  
+  
