@@ -17,10 +17,6 @@ proc create_report { reportName command } {
     send_msg_id runtcl-5 warning "$msg"
   }
 }
-set_param chipscope.maxJobs 2
-set_param xicom.use_bs_reader 1
-set_msg_config -id {Synth 8-256} -limit 10000
-set_msg_config -id {Synth 8-638} -limit 10000
 create_project -in_memory -part xc7a35ticsg324-1L
 
 set_param project.singleFileAddWarning.threshold 0
@@ -33,12 +29,18 @@ set_property target_language Verilog [current_project]
 set_property ip_output_repo c:/cygwin64/home/cdlucas/devel/github/arty_e310/arty_e310/arty_e310.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 read_verilog -library xil_defaultlib -sv {
+  C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/double_flipflop.sv
   C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/edge_detect.sv
   C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/fifo.sv
   C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/galois_lfsr.sv
+  C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/pulse_to_edge.sv
+  C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/single_flipflop.sv
   C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/xc7a35t_top.sv
 }
-read_verilog -library xil_defaultlib C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/clk_wiz_1_clk_wiz.v
+read_verilog -library xil_defaultlib {
+  C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/clk_wiz_1_clk_wiz.v
+  C:/cygwin64/home/cdlucas/devel/github/arty_e310/rtl/clk_wiz_3_clk_wiz.v
+}
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the
 # design are intentionally left as such for best results. Dcp files will be

@@ -6,12 +6,13 @@
 // =================================
 
 // Uncomment when simulating on EDA Playground
-`define EDA_PLAYGROUND
+//`define EDA_PLAYGROUND
 
 `ifdef EDA_PLAYGROUND
   `include "fifo.sv"
   `include "galois_lfsr.sv"
-  `include "design_if.sv"
+  `include "single_flipflop.sv"
+  `include "double_flipflop.sv"
   `include "pulse_to_edge.sv"
   `include "edge_detect.sv"
   `include "clk_wiz_1_clk_wiz.sv"
@@ -63,6 +64,8 @@ logic                                  lfsr0_enable;
 
 logic [LFSR_OUTPUT_BITS_PER_CLOCK-1:0] lfsr0_out;
 logic                                  lfsr0_output_valid;
+logic                                  lfsr0_output_valid_sff;  // Single-flopped on the source domain
+logic                                  lfsr0_output_valid_dff;  // Double-flopped on the destination domain
 
 logic                                  fifo0_push;    // Take one input from the LFSR per button push
 logic [FIFO_WIDTH-1:0]                 fifo0_data_in;
@@ -152,8 +155,27 @@ galois_lfsr #(
         , .lfsr_valid (lfsr0_output_valid)
 );
 
-always_comb fifo0_push = btn0_pulse && lfsr0_output_valid;   // Take one input from the LFSR per button push
-always_comb fifo0_data_in = lfsr0_out;                       // Adjust this if FIFO_WIDTH does not equal LFSR_OUTPUT_BITS_PER_CLOCK
+// Create an edge detect pulse when button 0 is de-asserted
+single_flipflop lfsr0_output_valid_sff_gen
+    (
+        .clk (clk0_50)
+        , .reset_n(RESET_N)
+        , .in(lfsr0_output_valid)
+        , .out(lfsr0_output_valid_sff) 
+    );
+
+// Create an edge detect pulse when button 0 is de-asserted
+double_flipflop lfsr0_output_valid_dff_gen
+    (
+        .clk (clk1_200)
+        , .reset_n(RESET_N)
+        , .in(lfsr0_output_valid_sff)
+        , .out(lfsr0_output_valid_dff) 
+    );
+
+
+always_comb fifo0_push = btn0_pulse && lfsr0_output_valid_dff;   // Take one input from the LFSR per button push
+always_comb fifo0_data_in = lfsr0_out;                           // Adjust this if FIFO_WIDTH does not equal LFSR_OUTPUT_BITS_PER_CLOCK
 always_comb fifo0_data_out_valid = ~fifo0_empty;
 
 // FIFO - 4 bits wide, store the output from the Galois LFSR

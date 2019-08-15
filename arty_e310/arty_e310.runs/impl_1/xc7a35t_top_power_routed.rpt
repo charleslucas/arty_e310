@@ -1,7 +1,7 @@
 Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
-| Date             : Wed Aug 14 14:25:26 2019
+| Date             : Thu Aug 15 09:59:36 2019
 | Host             : SHULKER running 64-bit major release  (build 9200)
 | Command          : report_power -file xc7a35t_top_power_routed.rpt -pb xc7a35t_top_power_summary_routed.pb -rpx xc7a35t_top_power_routed.rpx
 | Design           : xc7a35t_top
@@ -30,14 +30,14 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.173        |
+| Total On-Chip Power (W)  | 0.306        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.111        |
+| Dynamic (W)              | 0.244        |
 | Device Static (W)        | 0.062        |
 | Effective TJA (C/W)      | 4.8          |
-| Max Ambient (C)          | 99.2         |
-| Junction Temperature (C) | 25.8         |
+| Max Ambient (C)          | 98.5         |
+| Junction Temperature (C) | 26.5         |
 | Confidence Level         | Low          |
 | Setting File             | ---          |
 | Simulation Activity File | ---          |
@@ -52,17 +52,17 @@ Table of Contents
 +--------------------------+-----------+----------+-----------+-----------------+
 | On-Chip                  | Power (W) | Used     | Available | Utilization (%) |
 +--------------------------+-----------+----------+-----------+-----------------+
-| Clocks                   |    <0.001 |        5 |       --- |             --- |
-| Slice Logic              |    <0.001 |       83 |       --- |             --- |
-|   LUT as Logic           |    <0.001 |       30 |     20800 |            0.14 |
+| Clocks                   |     0.002 |        7 |       --- |             --- |
+| Slice Logic              |    <0.001 |      100 |       --- |             --- |
+|   LUT as Logic           |    <0.001 |       33 |     20800 |            0.16 |
+|   Register               |    <0.001 |       36 |     41600 |            0.09 |
 |   LUT as Distributed RAM |    <0.001 |        4 |      9600 |            0.04 |
-|   Register               |    <0.001 |       28 |     41600 |            0.07 |
-|   Others                 |     0.000 |        8 |       --- |             --- |
-| Signals                  |    <0.001 |       63 |       --- |             --- |
-| MMCM                     |     0.106 |        1 |         5 |           20.00 |
-| I/O                      |     0.005 |       22 |       210 |           10.48 |
+|   Others                 |     0.000 |       14 |       --- |             --- |
+| Signals                  |    <0.001 |       70 |       --- |             --- |
+| MMCM                     |     0.228 |        2 |         5 |           40.00 |
+| I/O                      |     0.013 |       22 |       210 |           10.48 |
 | Static Power             |     0.062 |          |           |                 |
-| Total                    |     0.173 |          |           |                 |
+| Total                    |     0.306 |          |           |                 |
 +--------------------------+-----------+----------+-----------+-----------------+
 
 
@@ -72,9 +72,9 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       0.950 |     0.007 |       0.001 |      0.006 |
-| Vccaux    |       1.800 |     0.070 |       0.059 |      0.011 |
-| Vcco33    |       3.300 |     0.002 |       0.001 |      0.001 |
+| Vccint    |       0.950 |     0.009 |       0.003 |      0.006 |
+| Vccaux    |       1.800 |     0.138 |       0.127 |      0.011 |
+| Vcco33    |       3.300 |     0.005 |       0.004 |      0.001 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
 | Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |
@@ -125,13 +125,15 @@ Table of Contents
 2.2 Clock Constraints
 ---------------------
 
-+--------------------+-------------------------+-----------------+
-| Clock              | Domain                  | Constraint (ns) |
-+--------------------+-------------------------+-----------------+
-| clk_out1_clk_wiz_1 | inst/clk_out1_clk_wiz_1 |            20.0 |
-| clkfbout_clk_wiz_1 | inst/clkfbout_clk_wiz_1 |            10.0 |
-| sys_clk_pin        | CLK100MHZ               |            10.0 |
-+--------------------+-------------------------+-----------------+
++--------------------+---------------------------------+-----------------+
+| Clock              | Domain                          | Constraint (ns) |
++--------------------+---------------------------------+-----------------+
+| clk_out1_clk_wiz_1 | clk_50_inst/clk_out1_clk_wiz_1  |            20.0 |
+| clk_out1_clk_wiz_3 | clk_200_inst/clk_out1_clk_wiz_3 |             5.0 |
+| clkfbout_clk_wiz_1 | clk_50_inst/clkfbout_clk_wiz_1  |            10.0 |
+| clkfbout_clk_wiz_3 | clk_200_inst/clkfbout_clk_wiz_3 |            50.0 |
+| sys_clk_pin        | CLK100MHZ                       |            10.0 |
++--------------------+---------------------------------+-----------------+
 
 
 3. Detailed Reports
@@ -140,11 +142,12 @@ Table of Contents
 3.1 By Hierarchy
 ----------------
 
-+-------------+-----------+
-| Name        | Power (W) |
-+-------------+-----------+
-| xc7a35t_top |     0.111 |
-|   inst      |     0.106 |
-+-------------+-----------+
++----------------+-----------+
+| Name           | Power (W) |
++----------------+-----------+
+| xc7a35t_top    |     0.244 |
+|   clk_200_inst |     0.123 |
+|   clk_50_inst  |     0.106 |
++----------------+-----------+
 
 

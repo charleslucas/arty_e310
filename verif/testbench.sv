@@ -18,6 +18,8 @@
 import uvm_pkg::*;  // Needed for Aldec, but not for VCS
 `include "uvm_macros.svh"
 
+`include "design_if.sv"
+
 //----------------
 // environment env
 //----------------
