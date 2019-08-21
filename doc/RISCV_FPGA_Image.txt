@@ -85,10 +85,15 @@ To synthesize the verilog source code into an FPGA image:
     Make sure Vivado is installed and on the path:
       Add the following lines to ~/.bashrc:
         export RISCV=~/opt/xPacks/@gnu-mcu-eclipse/riscv-none-gcc/8.2.0-2.2.1/.content
+      source ~/.bashrc
       
-  #mcs: to create a Configuration Memory File (.mcs) that can be programmed onto an Arty FPGA board.  (You must have the RISC-V toolchain installed to do this)
+To create the Configuration Memory File (.mcs) that can be programmed onto an Arty FPGA board.  (You must have the RISC-V toolchain installed to do this)
   make -f Makefile.e300artydevkit mcs
  
+If you are loading the image using Vivado under bare Windows, copy your compiled image from the Linux Subsystem world to the bare Windows world before loading.
+It is not recommended to edit files under Linux Subsystem directly using tools under bare Windows:
+https://www.howtogeek.com/261383/how-to-access-your-ubuntu-bash-files-in-windows-and-your-windows-system-drive-in-bash/
+
 
 -----------------------------
 To create an FPGA image containing the RISC-V processor (Using a Virtual Machine with Ubuntu and Linux Toolflow):
