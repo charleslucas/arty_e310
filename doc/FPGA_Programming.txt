@@ -35,7 +35,7 @@ Loading the pre-built example RISCV FPGA Image (blink):
     
 
 -----------------------------
-Loading the compiled RISCV FPGA Image (blink):
+Loading the custom-compiled RISCV FPGA Image (blink):
 -----------------------------
 
   Plug Arty board into USB cable.
@@ -54,88 +54,3 @@ Loading the compiled RISCV FPGA Image (blink):
   You should see a "programming successful" message.
   After resetting the board (re-plugging the cable may be required) you should see the LED blink program running.   
     
-
------------------------------
-Creating the RTL (from Chisel source) and building the FPGA Image File (Configuration Memory File) from source using Windows Linux Subsystem w' Ubuntu:
------------------------------
-
-Clone SiFive Freedom E310 github repository (Using Cygwin bash shell):
-  cd ~/cygwin
-  git clone http://github.com/sifive/freedom
-  cd freedom
-  #Run this command to update subrepositories used by freedom
-  git submodule update --init --recursive
-  
- Build the RTL and MCS (make sure you do these in order):
-  The Makefile corresponding to the Freedom E300 Arty FPGA Dev Kit is Makefile.e300artydevkit and it consists of two main targets:
-
-  #verilog: to compile the Chisel source files into Verilog source files.  (You must have the RISC-V toolchain installed to do this - see RISCV_Setup.txt)
-  make -f Makefile.e300artydevkit verilog
-  
-  #mcs: to create a Configuration Memory File (.mcs) that can be programmed onto an Arty FPGA board.  (You must have Vivado *and* the RISC-V toolchain installed to do this - see Vivado_Setup.txt and RISCV_Setup.txt)
-  make -f Makefile.e300artydevkit mcs
-  
-  (output files under builds/e300artydevkit/obj)
-
-
------------------------------
-Creating the RTL (from Chisel source) and building the FPGA Image File (Configuration Memory File) from source using Cygwin:
------------------------------
-
-Clone SiFive Freedom E310 github repository (Using Cygwin bash shell):
-  cd ~/cygwin
-  git clone http://github.com/sifive/freedom
-  cd freedom
-  #Run this command to update subrepositories used by freedom
-  git submodule update --init --recursive
-  
- Build the RTL and MCS (make sure you do these in order):
-  The Makefile corresponding to the Freedom E300 Arty FPGA Dev Kit is Makefile.e300artydevkit and it consists of two main targets:
-
-  #verilog: to compile the Chisel source files into Verilog source files.  (You must have the RISC-V toolchain installed to do this - see RISCV_Setup.txt)
-  make -f Makefile.e300artydevkit verilog
-  
-  #mcs: to create a Configuration Memory File (.mcs) that can be programmed onto an Arty FPGA board.  (You must have Vivado *and* the RISC-V toolchain installed to do this - see Vivado_Setup.txt and RISCV_Setup.txt)
-
-  make -f Makefile.e300artydevkit mcs
-  
-  (output files under builds/e300artydevkit/obj)
-
-
------------------------------
-Updating the RTL:
------------------------------
-
-cd to directory .../freedom
-git pull
-
-
------------------------------
-Connecting to the Arty (through the USB port) via terminal program:
------------------------------
-On the VM:
-  
-  sudo apt install screen (first time setup)
-  
-  sudo screen /dev/ttyUSB2 115200
-  (115200 for the precompiled image - 57600 for the compiled freedom image - https://forums.sifive.com/t/printing-over-uart-broken/1322) 
-  
-  Press Reset on the Arty
-  You should see text like that shown in the Getting Started Guide
-
-Issue - currently the output text is flaky (using both images), and varies from reset to reset.  Have seen similar complaints in forum.  Could be a an actual protocol issue, or perhaps an issue in translation between host and VM control.
-
-
------------------------------
-Running the software debugger with Blink (via the Olimex):
------------------------------
-  In case you have to install the FTDI drivers, but in Ubuntu they should be included in the kernel by default:  https://www.ftdichip.com/Support/Documents/AppNotes/AN_220_FTDI_Drivers_Installation_Guide_for_Linux.pdf
-  
-  Make sure the Virtual Machine has control of the device "Olimex Ltd. OpenOCD JTAG ARM-USB-TINY-H"  (Not "Olimex Ltd. ARM-USB-TINY-H JTAG interface").  If it's not there, then ensure the VM is started *before* the Olimex is connected to the host and try again.
-  
-  Connect the Olimex to the Arty board according to the diagram and picture on pages 4/5 of the Getting Started Guide
-  Connect the Olimex to a USB cable, and connect to the host machine.
-  Once you plug the Olimex into the host *and* into the Arty, program execution will halt.
-  
-  <wip>
- 

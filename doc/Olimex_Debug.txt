@@ -6,6 +6,24 @@ Prerequisites:
 Program the Arty e310 with either the pre-build FPGA image or the custom-built image - see FPGA_Programming.txt
 
 
+  
+-----------------------------
+Connecting to the Arty (through the USB port) via terminal program (Using Virtual Machine w' Linux, may work w' Linux Subsystem):
+-----------------------------
+On the VM:
+  
+  sudo apt install screen (first time setup)
+  
+  sudo screen /dev/ttyUSB2 115200
+  (115200 for the precompiled image - 57600 for the compiled freedom image - https://forums.sifive.com/t/printing-over-uart-broken/1322) 
+  
+  Press Reset on the Arty
+  You should see text like that shown in the Getting Started Guide
+
+Issue - currently the output text is flaky (using both images), and varies from reset to reset.  Have seen similar complaints in forum.  Could be a an actual protocol issue, or perhaps an issue in translation between host and VM control.
+
+
+
 -----------------------------
 Running the software debugger with Blink (via the Olimex):
 -----------------------------
