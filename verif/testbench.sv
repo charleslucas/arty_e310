@@ -17,8 +17,9 @@
 
 import uvm_pkg::*;  // Needed for Aldec, but not for VCS
 `include "uvm_macros.svh"
-
 `include "design_if.sv"
+`include "parallel_lfsr_if.sv"
+`include "lfsr_agent.sv"
 
 //----------------
 // environment env
@@ -26,16 +27,30 @@ import uvm_pkg::*;  // Needed for Aldec, but not for VCS
 class env extends uvm_env;
 
     virtual design_if m_if;
+    virtual parallel_lfsr_if l_if;
+  
+    parallel_lfsr_agent lfsr_agent;
+    parallel_lfsr_scoreboard lfsr_scoreboard;
 
     function new(string name, uvm_component parent = null);
         super.new(name, parent);
+      
+        lfsr_agent = parallel_lfsr_agent::type_id::create("lfsr_agent", this);
+        lfsr_scoreboard = parallel_lfsr_scoreboard::type_id::create("lfsr_scoreboard", this);
     endfunction
   
     function void connect_phase(uvm_phase phase);
         `uvm_info("LABEL", "Started connect phase.", UVM_HIGH);
+
         // Get the interface from the resource database.
         assert(uvm_resource_db#(virtual design_if)::read_by_name(
                 get_full_name(), "design_if", m_if));
+        assert(uvm_resource_db#(virtual parallel_lfsr_if)::read_by_name(
+                get_full_name(), "parallel_lfsr_if", l_if));
+      
+        // Connect the monitor output fifo to the scoreboard input fifo
+        lfsr_agent.monitor.item_collected_port.connect(lfsr_scoreboard.item_collected_export);
+      
         `uvm_info("LABEL", "Finished connect phase.", UVM_HIGH);
     endfunction: connect_phase
 
@@ -59,7 +74,7 @@ class env extends uvm_env;
             // Wait a clock for reset_n to be driven
             @(m_if.cb);
 
-            // Wait for reset_n to be deasserted
+                // Wait for reset_n to be deasserted
             while (m_if.reset_n !== 1'b1) begin
                 @(m_if.cb);
             end
@@ -67,9 +82,9 @@ class env extends uvm_env;
 
             // Loop and fill up FIFO0 with data from LFSR0
             for (int i=0; i < 16; i = i + 1) begin 
-               // Wait a few clocks and then push the button for FIFO0 to grab in input from LFSR0
-               repeat(10) @(m_if.cb);
-               button_press(0);
+                // Wait a few clocks and then push the button for FIFO0 to grab in input from LFSR0
+                repeat(10) @(m_if.cb);
+                button_press(0);
             end
             
             // Wait a few clocks for visibility in the waveform
@@ -145,6 +160,11 @@ module ti #() ();
             .clk                        (clk)
             , .reset_n                    (reset_n)
         );
+  
+    parallel_lfsr_if lfsr_intf (
+            . clk                       (clk)
+            , .reset_n                    (reset_n)
+        );
 
     // Test Signal Drivers
     initial begin
@@ -163,7 +183,7 @@ module ti #() ();
     end
   
     //---------------------------------------
-    //passing the interface handle to lower heirarchy using set method 
+    //passing the interface handle to lower hierarchy using set method 
     //and enabling the wave dump
     //---------------------------------------
     initial begin
@@ -172,6 +192,7 @@ module ti #() ();
         // Publish the interface to the resource database.
         //uvm_resource_db#(virtual design_if)::set("env", "design_if", dut.design_if0);
         uvm_config_db#(virtual design_if)::set(uvm_root::get(),"*","design_if",intf);
+        uvm_config_db#(virtual parallel_lfsr_if)::set(uvm_root::get(),"*","lfsr_vif",lfsr_intf);
 
         // Dump waves
         $dumpvars(0);
@@ -191,7 +212,7 @@ module ti #() ();
     //---------------------------------------
     xc7a35t_top #() DUT (
             // Connect the interface to the DUT RTL Signals
-              .CLK100MHZ                  (intf.clk)
+            .CLK100MHZ                  (intf.clk)
             , .RESET_N                    (intf.reset_n)
       
             , .btn                        (intf.btn)
@@ -209,5 +230,11 @@ module ti #() ();
             , .led3_b                     (intf.led3_b)
             , .led3_g                     (intf.led3_g)
         );
+  
+    //---------------------------------------
+    //dot-path signals to monitor internal signals
+    //---------------------------------------
+    assign lfsr_intf.ready = DUT.lfsr0_output_valid;
+    assign lfsr_intf.data  = DUT.lfsr0_out;
   
 endmodule
