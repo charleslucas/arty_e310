@@ -1,2 +1,101 @@
-https://www.sifive.com/blog/all-aboard-part-6-booting-a-risc-v-linux-kernel
-https://www.sifive.com/blog/all-aboard-part-9-paging-and-mmu-in-risc-v-linux-kernel
+-----------------------------
+Prerequisites:
+-----------------------------
+
+Program the FPGA on the Arty with an image containing a RISC-V processor.
+
+From Getting Started Guide:
+  The Olimex debugger is essential for downloading and debugging code to your SDK. The software will be
+  downloaded to SPI Flash, so it will be retained. Without the debugger you can only flash the FPGA
+  image and run the included demo program, you cannot change the software which executes.
+
+-----------------------------
+Arty Documentation:
+-----------------------------
+
+  SiFive Freedom E310 Arty FPGA Dev Kit Getting Started Guide (Only discusses Linux toolflow, not Windows)
+  https://sifive.cdn.prismic.io/sifive/ed96de35-065f-474c-a432-9f6a364af9c8_sifive-e310-arty-gettingstarted-v1.0.6.pdf
+  
+  Digikey - Digilent Arty A7 with Xilinx Artix-7 Implementing SiFive FE310 RISC-V
+  https://www.digikey.com/eewiki/display/LOGIC/Digilent+Arty+A7+with+Xilinx+Artix-7+Implementing+SiFive+FE310+RISC-V
+  
+-----------------------------
+RISC-V Documentation:
+-----------------------------
+
+  https://www.sifive.com/blog/all-aboard-part-6-booting-a-risc-v-linux-kernel
+  https://www.sifive.com/blog/all-aboard-part-9-paging-and-mmu-in-risc-v-linux-kernel
+
+
+-----------------------------
+Olimxex ARM-USB-TINY Documentation:
+-----------------------------
+
+  ARM-USB-TINY/TINY-H User's Manual
+    https://www.olimex.com/Products/ARM/JTAG/_resources/ARM-USB-TINY_and_TINY_H_manual.pdf
+
+
+-----------------------------
+Connecting the Debugger:
+-----------------------------
+  Connect the wires between the Olimex debugger and the Arty board:
+    (See Getting Started Guide section 2.2 - Connecting the Debugger and/or the Digikey Documentation)
+
+  Install the Olimex OpenOCD Driver for Windows:
+    (See the ARM-USB-TINY User's Manual, Chapter 3.3.2 - Drivers and driver installation)
+    
+    Download the Zadig USB driver installation utility:  https://zadig.akeo.ie/
+    
+
+
+
+-----------------------------
+Compiler and Tool Installation (Using Windows 10 Linux Subsystem):
+-----------------------------
+
+Get a Linux Subsystem Window:
+  Start cmd window
+  Run 'ubuntu' and login
+
+Install necessary tools:
+  sudo apt install gcc
+  sudo apt install libftdi1
+  sudo apt install libftdi-dev
+  sudo apt install libftdi1-dev
+  (You can try 'sudo apt install openocd', or try the pre-built version below)
+
+  Install pre-built RISC-V Toolchain
+  Download GNU Embedded Toolchain and OpenOCD from: https://www.sifive.com/boards
+  (Check for more recent version of below tools)
+
+  /opt/Digilent/
+  wget -c https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14.tar.gz
+  wget -c https://static.dev.sifive.com/dev-tools/riscv-openocd-0.10.0-2019.05.1-x86_64-linux-ubuntu14.tar.gz
+  
+  /opt/Digilent/
+  sudo tar xvfz riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14.tar.gz
+  sudo tar xvfz riscv-openocd-0.10.0-2019.05.1-x86_64-linux-ubuntu14.tar.gz
+  
+  Add the following lines to ~/.bashrc:
+    export RISCV=/opt/Digilent/riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14/
+    export RISCV_PATH=/opt/Digilent/riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14/
+    export OLIMEX_PATH=/opt/Digilent/riscv-openocd-0.10.0-2019.05.1-x86_64-linux-ubuntu14/
+  source ~/.bashrc
+ 
+ 
+-----------------------------
+Building OpenOCD from source (Using Windows 10 Linux Subsystem):
+-----------------------------
+  http://robotics.mcmanis.com/articles/20190331_openocd-build.html
+ 
+-----------------------------
+Clone and build the Software (Using Windows 10 Linux Subsystem):
+-----------------------------
+
+ git clone --recursive https://github.com/sifive/freedom-e-sdk.git
+ cd freedom-e-sdk
+ 
+  make BSP=metal PROGRAM=hello TARGET=freedom-e310-arty clean
+  make BSP=metal PROGRAM=hello TARGET=freedom-e310-arty software
+  make BSP=metal PROGRAM=hello TARGET=freedom-e310-arty upload
+ 

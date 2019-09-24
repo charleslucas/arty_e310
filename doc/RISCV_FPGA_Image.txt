@@ -5,10 +5,13 @@ Documentation:
 -----------------------------
 
   SiFive Freedom E310 Arty FPGA Dev Kit Getting Started Guide (Only discusses Linux toolflow, not Windows)
-  https://sifive.cdn.prismic.io/sifive/ed96de35-065f-474c-a432-9f6a364af9c8_sifive-e310-arty-gettingstarted-v1.0.6.pdf
+    https://sifive.cdn.prismic.io/sifive/ed96de35-065f-474c-a432-9f6a364af9c8_sifive-e310-arty-gettingstarted-v1.0.6.pdf
   
   SiFive Freedom E300 Platform Reference Manual
-  https://static.dev.sifive.com/SiFive-E300-platform-reference-manual-v1.0.1.pdf
+    https://static.dev.sifive.com/SiFive-E300-platform-reference-manual-v1.0.1.pdf
+  
+  SiFive GitHub Repository for all Chisel/RTL and buildfiles for building the FPGA image:
+    https://github.com/sifive/freedom/blob/master/README.md
   
   MCU:
     https://gnu-mcu-eclipse.github.io/
@@ -57,8 +60,9 @@ To enable the Linux Subsystem in Powershell:
     
 Install your Linux distro from the Microsoft Store - I chose Ubuntu
 
-Start cmd window
-Run 'ubuntu' and login
+Get a Linux Subsystem Window:
+  Start cmd window
+  Run 'ubuntu' and login
 
 Clone SiFive Freedom E310 github repository:
   git clone http://github.com/sifive/freedom
@@ -67,15 +71,25 @@ Clone SiFive Freedom E310 github repository:
   git submodule update --init --recursive
   
 ###Download the precompiled GNU Embedded Toolchain and OpenOCD for Ubuntu:  https://www.sifive.com/boards (near the bottom)
-  tar xvfz riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14.tar.gz
+Install prebuilt RISC-V Toolchain
+  Download GNU Embedded Toolchain and OpenOCD from: https://www.sifive.com/boards
+  (Check for more recent version of below tools)
+
+  /opt/Digilent/
+  wget -c https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14.tar.gz
+  wget -c https://static.dev.sifive.com/dev-tools/riscv-openocd-0.10.0-2019.05.1-x86_64-linux-ubuntu14.tar.gz
+  
+  /opt/Digilent/
+  sudo tar xvfz riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14.tar.gz
+  sudo tar xvfz riscv-openocd-0.10.0-2019.05.1-x86_64-linux-ubuntu14.tar.gz
+  
   Add the following line to ~/.bashrc:
-    export RISCV=~/riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14/
+    export RISCV=/opt/Digilent/riscv64-unknown-elf-gcc-8.2.0-2019.05.3-x86_64-linux-ubuntu14/
 
-To compile the chisel source code into Verilog source code:
-  cd ~/freedom
-  make -f Makefile.e300artydevkit verilog
+  source ~/.bashrc
 
-To synthesize the verilog source code into an FPGA image:
+
+### (Alternate method - not tested) To install the RISCV tools that synthesize the verilog source code into an FPGA image:
   Install the RISC-V Toolchain:
     sudo apt install nodejs
     sudo apt install npm
@@ -87,6 +101,10 @@ To synthesize the verilog source code into an FPGA image:
         export RISCV=~/opt/xPacks/@gnu-mcu-eclipse/riscv-none-gcc/8.2.0-2.2.1/.content
       source ~/.bashrc
       
+To compile the chisel source code into Verilog source code:
+  cd ~/freedom
+  make -f Makefile.e300artydevkit verilog
+
 To create the Configuration Memory File (.mcs) that can be programmed onto an Arty FPGA board.  (You must have the RISC-V toolchain installed to do this)
   make -f Makefile.e300artydevkit mcs
  
