@@ -1,6 +1,6 @@
 // =================================
 // Galois LFSR
-// Copyright 2019
+// Copyright 2020
 // Charles Lucas
 // charles@lucas.net
 // =================================
@@ -22,15 +22,13 @@ module galois_lfsr #(
     logic                  initialize;
     logic [LFSR_WIDTH-1:0] lfsr;
     logic [LFSR_WIDTH-1:0] lfsr_next;
-    logic                  lfsr_valid_next;
-    logic [LFSR_OUTPUT_BITS_PER_CLOCK-1:0] lfsr_out_next;
   
     generate
         if (LFSR_OUTPUT_BITS_PER_CLOCK == 1) begin : g_lfsr_bits_per_clock_select_1
             always_comb begin
                 if (enable) begin : g_lfsr_enable
                     // Polynomial x^8 + x^4 + x^3 + x^2 + 1
-                    lfsr_next[0] =           lfsr[7];
+                    lfsr_next[0] =           lfsr[7] ^ 0;
                     lfsr_next[1] =           lfsr[0];
                     lfsr_next[2] = lfsr[7] ^ lfsr[1];
                     lfsr_next[3] = lfsr[7] ^ lfsr[2];
@@ -178,27 +176,23 @@ module galois_lfsr #(
   
     generate
         if (LFSR_WIDTH == 1) begin : g_lfsr_one_bit
-            always_comb lfsr_out_next = lfsr[LFSR_WIDTH-1];
+            always_comb lfsr_out = lfsr[LFSR_WIDTH-1];
         end
         else begin : g_lfsr_multiple_bits
-            always_comb lfsr_out_next[LFSR_OUTPUT_BITS_PER_CLOCK-1:0] = lfsr[LFSR_WIDTH-1:LFSR_WIDTH-LFSR_OUTPUT_BITS_PER_CLOCK];
+            always_comb lfsr_out[LFSR_OUTPUT_BITS_PER_CLOCK-1:0] = lfsr[LFSR_WIDTH-1:LFSR_WIDTH-LFSR_OUTPUT_BITS_PER_CLOCK];
         end
     endgenerate
   
-    always_comb lfsr_valid_next = ~initialize;  // Eventually we may need to initialize for multiple clocks
+    always_comb lfsr_valid = ~initialize && enable;  // Eventually we may need to initialize for multiple clocks
   
     always @ (posedge clk or negedge reset_n) begin
         if (!reset_n) begin
             initialize  <= 1'b1;  // Initialize for one clock after reset is deasserted
             lfsr        <= LFSR_SEED;
-            lfsr_valid  <= 1'b0;
-            lfsr_out    <= 1'b0;
         end
         else begin
             initialize  <= 1'b0;
             lfsr        <= lfsr_next;
-            lfsr_valid  <= lfsr_valid_next;
-            lfsr_out    <= lfsr_out_next;  // Flop the output data so it lines up with lfsr_valid
         end
     end
 

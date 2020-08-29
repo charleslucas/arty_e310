@@ -21,6 +21,20 @@ Documentation:
   Vivado I/O Planning Tutorial:
   https://www.xilinx.com/video/hardware/i-and-o-planning-overview.html
   
+-----------------------------------------
+Development Environment (Eclipse w' DVT):
+-----------------------------------------
+
+Download and install Eclipse for Java Developers (it won't install on Eclipse for C++ developers)
+Go to Help->Eclipe Marketplace
+Search for "Verilog", and install DVT
+Restart
+If it give you a "Java Compiler Directives Missing!" dialog box, make a backup copy of the java eclipse.ini file.
+Append the given lines to the eclipe.ini file as directed.
+File->Restart
+
+Request an academic or evaluation license:  https://www.dvteclipse.com/request-license
+
 
 -----------------------------
 Vivado Setup (Using Windows Linux Subystem w' Ubuntu):
@@ -127,5 +141,5 @@ Download and install latest version of Vivado HL Design Edition (12.5G Download!
   https://www.xilinx.com/support/download.html
   http://xilinx.com/getlicense
   
-Download "Vivado HLx 2019.1: WebPACK and Editions - Windows Self Extracting Web Installer"
+Download "Xilinx Unified Installer 2020.1: Windows Self Extracting Web Installer"
 
