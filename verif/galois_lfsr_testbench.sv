@@ -3,7 +3,7 @@
 // =================================
 module ti #(
     parameter LFSR_WIDTH                 = 8
-  , parameter LFSR_OUTPUT_BITS_PER_CLOCK = 1
+  , parameter LFSR_OUTPUT_BITS_PER_CLOCK = 6
 ) ();
   
     logic clk;
@@ -43,7 +43,7 @@ module ti #(
         $display("LFSR Enabled");
         enable <= 1'b1;
       
-        #10000;
+        #100000;
         @(posedge clk);
         $fclose(fd);
         $finish;

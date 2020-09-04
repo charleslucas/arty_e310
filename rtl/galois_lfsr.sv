@@ -214,7 +214,7 @@ module galois_lfsr #(
                     state_next[4]  =                                  state[5]            ^ (state[3] ^ state[7]) ^ (state[2] ^ state[7] ^ state[6]) ^ (state[1] ^ state[7] ^ state[6] ^ state[5] ^ state[4]) ;
                     state_next[5]  =                       state[6]            ^ state[4] ^ (state[3] ^ state[7]) ^ (state[2] ^ state[7] ^ state[6])                                                          ;
                     state_next[6]  =            state[7]            ^ state[5] ^ state[4] ^ (state[3] ^ state[7])                                                                                             ;
-                    state_next[7]  = state[0]            ^ state[6] ^ state[5]                                                                                                                                ;
+                    state_next[7]  = state[0]            ^ state[6] ^ state[5] ^ state[4]                                                                                                                     ;
                 end
                 else begin : g_lfsr_unspecified_bits_per_clock_7
                     state_next = state;
