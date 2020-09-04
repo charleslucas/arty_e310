@@ -122,10 +122,10 @@ module galois_lfsr #(
                     // Polynomial x^8 + x^5 + x^4 + x^3 + 1
                     state_next[0]  =                                             state[4] ;
                     state_next[1]  =                                  state[5]            ;
-                    state_next[2]  =                      state[6]             ^ state[4] ;
+                    state_next[2]  =                       state[6]            ^ state[4] ;
                     state_next[3]  =            state[7]            ^ state[5] ^ state[4] ;
                     state_next[4]  = state[0]            ^ state[6] ^ state[5] ^ state[4] ;
-                    state_next[5]  = state[1] ^ state[7] ^ state[6] ^ state[5] ^ state[4] ;
+                    state_next[5]  = state[1] ^ state[7] ^ state[6] ^ state[5]            ;
                     state_next[6]  = state[2] ^ state[7] ^ state[6]                       ;
                     state_next[7]  = state[3] ^ state[7]                                  ;
                 end
@@ -154,7 +154,7 @@ module galois_lfsr #(
                     state_next[3]  =                       state[6]            ^ state[4] ^ (state[3] ^ state[7]) ;
                     state_next[4]  =            state[7]            ^ state[5] ^ state[4] ^ (state[3] ^ state[7]) ;
                     state_next[5]  = state[0]            ^ state[6] ^ state[5] ^ state[4]                         ;
-                    state_next[6]  = state[1] ^ state[7] ^ state[6] ^ state[5] ^ state[4]                         ;
+                    state_next[6]  = state[1] ^ state[7] ^ state[6] ^ state[5]                                    ;
                     state_next[7]  = state[2] ^ state[7] ^ state[6]                                               ;
                 end
                 else begin : g_lfsr_unspecified_bits_per_clock_5
@@ -184,7 +184,7 @@ module galois_lfsr #(
                     state_next[4]  =                       state[6]            ^ state[4] ^ (state[3] ^ state[7]) ^ (state[2] ^ state[7] ^ state[6]) ;
                     state_next[5]  =            state[7]            ^ state[5] ^ state[4] ^ (state[3] ^ state[7])                                    ;
                     state_next[6]  = state[0]            ^ state[6] ^ state[5] ^ state[4]                                                            ;
-                    state_next[7]  = state[1] ^ state[7] ^ state[6] ^ state[5] ^ state[4]                                                            ;
+                    state_next[7]  = state[1] ^ state[7] ^ state[6] ^ state[5]                                                                       ;
                 end
                 else begin : g_lfsr_unspecified_bits_per_clock_6
                     state_next = state;
@@ -214,7 +214,7 @@ module galois_lfsr #(
                     state_next[4]  =                                  state[5]            ^ (state[3] ^ state[7]) ^ (state[2] ^ state[7] ^ state[6]) ^ (state[1] ^ state[7] ^ state[6] ^ state[5] ^ state[4]) ;
                     state_next[5]  =                       state[6]            ^ state[4] ^ (state[3] ^ state[7]) ^ (state[2] ^ state[7] ^ state[6])                                                          ;
                     state_next[6]  =            state[7]            ^ state[5] ^ state[4] ^ (state[3] ^ state[7])                                                                                             ;
-                    state_next[7]  = state[0]            ^ state[6] ^ state[5] ^ state[4]                                                                                                                     ;
+                    state_next[7]  = state[0]            ^ state[6] ^ state[5]                                                                                                                                ;
                 end
                 else begin : g_lfsr_unspecified_bits_per_clock_7
                     state_next = state;
