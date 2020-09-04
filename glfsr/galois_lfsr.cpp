@@ -27,7 +27,7 @@ bool lfsr_step(LFSR_T *plfsr) {
     }
 
     //#ifdef DEBUG
-        std::cout << "out/state :  " << std::bitset<8>(plfsr->out) << "  " << std::bitset<8>(plfsr->state) << std::endl; 
+        //std::cout << "out/state :  " << std::bitset<8>(plfsr->out) << "  " << std::bitset<8>(plfsr->state) << std::endl; 
         //std::cout << std::endl << "state:       " << std::bitset<8>(plfsr->state) << std::endl; 
         //std::cout              << "ymask:       " << std::bitset<8>(plfsr->ymask) << std::endl;
         //std::cout              << "taps :       " << std::bitset<8>(plfsr->taps)  << std::endl;
