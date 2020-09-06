@@ -3,7 +3,7 @@
 // =================================
 module ti #(
     parameter LFSR_WIDTH                 = 8
-  , parameter LFSR_OUTPUT_BITS_PER_CLOCK = 6
+  , parameter LFSR_OUTPUT_BITS_PER_CLOCK = 8
 ) ();
   
     logic clk;
