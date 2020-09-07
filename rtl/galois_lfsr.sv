@@ -30,12 +30,13 @@ module galois_lfsr #(
     logic [LFSR_OUTPUT_BITS_PER_CLOCK-1:0] out_next;
     logic                                  valid_next;
   
+    initial begin
+        bpc_g0:  assert (LFSR_OUTPUT_BITS_PER_CLOCK  > 0);  // Zero bits-per-clock is an invalid case
+        bpc_le8: assert (LFSR_OUTPUT_BITS_PER_CLOCK <= 8);  // Eight bits-per-clock is our current maximum
+    end
+
     generate
-        if (LFSR_OUTPUT_BITS_PER_CLOCK == 0) begin : g_lfsr_bits_per_clock_select_0
-           // TODO:  Create assertion, this is an invalid case
-        end
         if (LFSR_OUTPUT_BITS_PER_CLOCK == 1) begin : g_lfsr_bits_per_clock_select_1
-        
             always_comb begin
                 if (initialize) begin
                     state_next = LFSR_SEED;
@@ -261,13 +262,6 @@ module galois_lfsr #(
                 out_next[5] = state[5];
                 out_next[6] = state[6];
                 out_next[7] = state[7];
-            end
-        end
-        else begin : g_lfsr_bits_per_clock_select_invalid
-            // TODO - Add assertion - we should never hit this case
-            always_comb begin
-                state_next = state;
-                out_next   = out;
             end
         end
     endgenerate
